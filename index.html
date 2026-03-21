@@ -671,21 +671,29 @@
     #svc-sheet-overlay.open { opacity: 1; display: block; }
   
     /* ══════════════════════════════════════════════
-       BLUEPRINT GRID ANIMATION — all sections
+       WAVE TATTOO ANIMATION — all sections
     ══════════════════════════════════════════════ */
-    @keyframes bpDrift {
+    @keyframes waveScroll {
       0%   { background-position: 0px 0px; }
-      100% { background-position: 60px 60px; }
+      100% { background-position: -400px 0px; }
     }
-    @keyframes bpFlash {
-      0%, 88%, 100% { opacity: 0; }
-      92%  { opacity: 1; }
-      96%  { opacity: 0.4; }
+    @keyframes waveRise {
+      0%   { background-position: 0px 0px; }
+      100% { background-position: -400px -160px; }
     }
-    @keyframes bpFlash2 {
-      0%, 70%, 100% { opacity: 0; }
-      74%  { opacity: 0.8; }
-      78%  { opacity: 0; }
+    @keyframes waveFlash {
+      0%, 82%, 100% { opacity: 0; }
+      88%  { opacity: 1; }
+      94%  { opacity: 0; }
+    }
+    @keyframes waveFlash2 {
+      0%, 60%, 100% { opacity: 0; }
+      65%  { opacity: 0.7; }
+      70%  { opacity: 0; }
+    }
+    @keyframes waveGlow {
+      0%, 100% { opacity: 0.7; }
+      50%      { opacity: 1; }
     }
     .bp-bg {
       position: absolute;
@@ -694,49 +702,57 @@
       z-index: 0;
       overflow: hidden;
     }
-    /* Moving grid */
+    /* Primary wave layer — scrolls left */
     .bp-bg::before {
       content: '';
       position: absolute;
-      inset: -60px;
-      background-image:
-        linear-gradient(rgba(96,165,250,0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(96,165,250,0.035) 1px, transparent 1px);
-      background-size: 60px 60px;
-      animation: bpDrift 12s linear infinite;
+      inset: -20px;
+      background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27400%27%20height%3D%27160%27%20viewBox%3D%270%200%20400%20160%27%3E%0A%20%20%3Cpath%20d%3D%27M0%2040%20C50%2020%2C100%2060%2C150%2040%20S250%2020%2C300%2040%20S350%2060%2C400%2040%27%20fill%3D%27none%27%20stroke%3D%27rgba%2896%2C165%2C250%2C0.07%29%27%20stroke-width%3D%271.5%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%2080%20C50%2055%2C100%20105%2C150%2080%20S250%2055%2C300%2080%20S350%20105%2C400%2080%27%20fill%3D%27none%27%20stroke%3D%27rgba%2896%2C165%2C250%2C0.055%29%27%20stroke-width%3D%271%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%20120%20C50%2095%2C100%20145%2C150%20120%20S250%2095%2C300%20120%20S350%20145%2C400%20120%27%20fill%3D%27none%27%20stroke%3D%27rgba%2896%2C165%2C250%2C0.04%29%27%20stroke-width%3D%271%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%2020%20C50%205%2C100%2035%2C150%2020%20S250%205%2C300%2020%20S350%2035%2C400%2020%27%20fill%3D%27none%27%20stroke%3D%27rgba%2896%2C165%2C250%2C0.03%29%27%20stroke-width%3D%270.8%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%20140%20C50%20125%2C100%20155%2C150%20140%20S250%20125%2C300%20140%20S350%20155%2C400%20140%27%20fill%3D%27none%27%20stroke%3D%27rgba%2896%2C165%2C250%2C0.03%29%27%20stroke-width%3D%270.8%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%2060%20C50%2045%2C100%2075%2C150%2060%20S250%2045%2C300%2060%20S350%2075%2C400%2060%27%20fill%3D%27none%27%20stroke%3D%27rgba%28147%2C197%2C253%2C0.03%29%27%20stroke-width%3D%270.6%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%20100%20C50%2085%2C100%20115%2C150%20100%20S250%2085%2C300%20100%20S350%20115%2C400%20100%27%20fill%3D%27none%27%20stroke%3D%27rgba%28147%2C197%2C253%2C0.03%29%27%20stroke-width%3D%270.6%27/%3E%0A%3C/svg%3E");
+      background-size: 400px 160px;
+      background-repeat: repeat;
+      animation: waveScroll 10s linear infinite;
     }
-    /* Diagonal flash sweep */
+    /* Secondary wave layer — scrolls at angle, offset phase */
     .bp-bg::after {
       content: '';
       position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        105deg,
-        transparent 20%,
-        rgba(96,165,250,0.06) 48%,
-        rgba(147,197,253,0.12) 50%,
-        rgba(96,165,250,0.06) 52%,
-        transparent 80%
-      );
-      background-size: 300% 300%;
-      animation: bpFlash 9s ease-in-out infinite;
+      inset: -40px;
+      background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27400%27%20height%3D%27160%27%20viewBox%3D%270%200%20400%20160%27%3E%0A%20%20%3Cpath%20d%3D%27M0%2040%20C50%2020%2C100%2060%2C150%2040%20S250%2020%2C300%2040%20S350%2060%2C400%2040%27%20fill%3D%27none%27%20stroke%3D%27rgba%2896%2C165%2C250%2C0.07%29%27%20stroke-width%3D%271.5%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%2080%20C50%2055%2C100%20105%2C150%2080%20S250%2055%2C300%2080%20S350%20105%2C400%2080%27%20fill%3D%27none%27%20stroke%3D%27rgba%2896%2C165%2C250%2C0.055%29%27%20stroke-width%3D%271%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%20120%20C50%2095%2C100%20145%2C150%20120%20S250%2095%2C300%20120%20S350%20145%2C400%20120%27%20fill%3D%27none%27%20stroke%3D%27rgba%2896%2C165%2C250%2C0.04%29%27%20stroke-width%3D%271%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%2020%20C50%205%2C100%2035%2C150%2020%20S250%205%2C300%2020%20S350%2035%2C400%2020%27%20fill%3D%27none%27%20stroke%3D%27rgba%2896%2C165%2C250%2C0.03%29%27%20stroke-width%3D%270.8%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%20140%20C50%20125%2C100%20155%2C150%20140%20S250%20125%2C300%20140%20S350%20155%2C400%20140%27%20fill%3D%27none%27%20stroke%3D%27rgba%2896%2C165%2C250%2C0.03%29%27%20stroke-width%3D%270.8%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%2060%20C50%2045%2C100%2075%2C150%2060%20S250%2045%2C300%2060%20S350%2075%2C400%2060%27%20fill%3D%27none%27%20stroke%3D%27rgba%28147%2C197%2C253%2C0.03%29%27%20stroke-width%3D%270.6%27/%3E%0A%20%20%3Cpath%20d%3D%27M0%20100%20C50%2085%2C100%20115%2C150%20100%20S250%2085%2C300%20100%20S350%20115%2C400%20100%27%20fill%3D%27none%27%20stroke%3D%27rgba%28147%2C197%2C253%2C0.03%29%27%20stroke-width%3D%270.6%27/%3E%0A%3C/svg%3E");
+      background-size: 400px 160px;
+      background-repeat: repeat;
+      background-position: 200px 80px;
+      opacity: 0.6;
+      animation: waveRise 16s linear infinite;
     }
-    /* Second flash with different timing */
+    /* Flash sweep — electric pulse across waves */
     .bp-flash2 {
       position: absolute;
       inset: 0;
       pointer-events: none;
-      z-index: 0;
+      z-index: 1;
       background: linear-gradient(
-        75deg,
-        transparent 10%,
-        rgba(96,165,250,0.04) 38%,
-        rgba(147,197,253,0.09) 40%,
-        rgba(96,165,250,0.04) 42%,
-        transparent 70%
+        100deg,
+        transparent 15%,
+        rgba(96,165,250,0.0) 40%,
+        rgba(147,197,253,0.14) 50%,
+        rgba(96,165,250,0.0) 60%,
+        transparent 85%
       );
-      background-size: 300% 300%;
-      animation: bpFlash2 13s ease-in-out infinite 4s;
+      animation: waveFlash 8s ease-in-out infinite;
+    }
+    .bp-flash2::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        70deg,
+        transparent 20%,
+        rgba(96,165,250,0.0) 42%,
+        rgba(96,165,250,0.1) 50%,
+        rgba(96,165,250,0.0) 58%,
+        transparent 80%
+      );
+      animation: waveFlash2 11s ease-in-out infinite 3s;
     }
 
   </style>
@@ -837,25 +853,12 @@
   <div class="relative z-10 max-w-5xl mx-auto px-6 text-center pt-36">
     <!-- Badge -->
     <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-forest-700/60 bg-forest-900/30 text-forest-400 text-xs font-semibold tracking-widest uppercase mb-8 backdrop-blur-sm reveal">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 44" width="18" height="28" style="filter:drop-shadow(0 0 4px rgba(96,165,250,0.6))">
-          <!-- South Island -->
-          <path d="M4 26 C2 27 1 29 2 31 C3 33 4 35 6 37 C8 39 10 41 12 42 C14 43 16 42 18 41 C20 40 22 38 23 36 C24 34 24 32 23 30 C22 28 20 27 18 27 C16 27 14 28 12 28 C10 28 8 27 6 26 Z" fill="#1e40af" stroke="#60a5fa" stroke-width="0.8" opacity="0.9"/>
-          <!-- Union Jack hint on South Island -->
-          <line x1="13" y1="28" x2="13" y2="42" stroke="#93c5fd" stroke-width="0.6" opacity="0.5"/>
-          <line x1="5" y1="34" x2="22" y2="34" stroke="#93c5fd" stroke-width="0.6" opacity="0.5"/>
-          <!-- North Island -->
-          <path d="M10 4 C8 5 7 7 7 9 C7 11 8 13 9 15 C10 17 11 19 12 21 C13 23 14 24 16 24 C18 24 19 23 20 21 C21 19 22 17 22 15 C22 13 21 11 20 9 C19 7 18 5 17 4 C16 3 14 3 12 3 C11 3 10 3.5 10 4 Z" fill="#1e3a8a" stroke="#60a5fa" stroke-width="0.8" opacity="0.9"/>
-          <!-- Southern Cross stars (tiny) -->
-          <circle cx="5" cy="32" r="0.7" fill="#fbbf24" opacity="0.9"/>
-          <circle cx="9" cy="39" r="0.7" fill="#fbbf24" opacity="0.9"/>
-          <circle cx="16" cy="40" r="0.5" fill="#fbbf24" opacity="0.7"/>
-          <circle cx="21" cy="35" r="0.7" fill="#fbbf24" opacity="0.9"/>
-        </svg>
+<img src="Images/NZ_logo.jpeg" alt="New Zealand" style="height:22px;width:auto;object-fit:contain;filter:drop-shadow(0 0 4px rgba(96,165,250,0.5));vertical-align:middle;" />
       Canterbury, NZ
     </div>
 
     <!-- Headline — letter-by-letter animated with blue highlights -->
-    <h1 id="hero-headline" class="font-black tracking-tight mb-6" style="font-size:clamp(1.45rem,6vw,4.5rem);line-height:1.08;letter-spacing:-0.02em;" aria-label="Building Canterbury's Future with Trust and Precision"></h1>
+    <h1 id="hero-headline" class="font-black tracking-tight mb-6" style="font-size:clamp(0.75rem,4.6vw,4.5rem);line-height:1.12;letter-spacing:-0.02em;" aria-label="Building Canterbury's Future with Trust and Precision"></h1>
 
     <style>
     /* ── Letter animation base ── */
