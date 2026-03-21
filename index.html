@@ -558,6 +558,10 @@
     #hero .section-tag-badge { font-size: 0.6rem !important; }
   }
 
+
+    /* ── Section scroll offset (sticky nav = 112px) ── */
+    section[id] { scroll-margin-top: 7rem; }
+
     /* ── Flip Cards (Services) ── */
     .flip-card { perspective: 1000px; cursor: pointer; }
     .flip-card-inner {
@@ -808,8 +812,8 @@
     /* Space between words */
     .hl-sp  { display: inline-block; width: 0.27em; }
     /* Responsive break helpers (defined in raw CSS so they work on JS-created elements) */
-    .hl-sp-mob { display: inline-block; width: 0.27em; }
-    .hl-br-sm  { display: none; }
+    .hl-sp-mob { display: none; }
+    .hl-br-sm  { display: block; }
     @media (min-width: 640px) {
       .hl-sp-mob { display: none; }
       .hl-br-sm  { display: block; }
@@ -820,7 +824,7 @@
     (function() {
       var WORDS = [
         { text: 'Building',     cls: '' },
-        { text: "Canterbury's", cls: '' },
+        { text: "Canterbury's", cls: 'future-l' },
         { text: 'Future',       cls: 'future-l' },
         { text: 'with',         cls: '' },
         { text: 'Trust',        cls: '' },
@@ -828,7 +832,7 @@
         { text: 'Precision',    cls: '' }
       ];
       /* After which word indices to insert a responsive line-break */
-      var BREAK_AFTER = { 1: true, 3: true };
+      var BREAK_AFTER = { 2: true };  /* break after 'Future' on desktop */
 
       function buildHeadline() {
         var h1 = document.getElementById('hero-headline');
@@ -1477,57 +1481,6 @@
     <!-- Founder cards -->
     <div class="grid md:grid-cols-2 gap-8">
 
-      <!-- Nalin -->
-      <div class="founder-card group relative rounded-3xl overflow-hidden border border-forest-700/30 bg-slate-800/40 backdrop-blur-sm" style="transition: transform 0.35s ease, box-shadow 0.35s ease;" onclick="openFounderSheet('nalin')">
-        <!-- Logo image box -->
-        <div class="relative overflow-hidden flex items-center justify-center bg-white" style="height: 220px;">
-          <img src="Images/nalin-logo.jpg" alt="Nalin Hewawasam – Co-Founder" style="height:100%;width:100%;object-fit:contain;padding:20px;" />
-          <div class="absolute bottom-0 left-0 right-0 h-10 pointer-events-none" style="background:linear-gradient(to top,rgba(30,41,59,0.6),transparent);"></div>
-        </div>
-        <div class="founder-tap-hint">TAP FOR DETAILS ↑</div>
-        <div class="founder-click-hint">CLICK FOR DETAILS ↓</div>
-        <div class="founder-details p-8">
-          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 gap-2">
-            <div>
-              <p class="text-forest-400 text-sm font-semibold">Co-Founder & Licensed Builder</p>
-              <!-- Mobile: badges below title, side by side -->
-              <div class="flex gap-1.5 mt-2 sm:hidden">
-                <span class="px-3 py-1 rounded-full bg-forest-900/50 border border-forest-700/50 text-forest-300 text-xs font-bold">LBP</span>
-                <span class="px-3 py-1 rounded-full bg-forest-900/50 border border-forest-700/50 text-forest-300 text-xs font-bold">BCITO</span>
-              </div>
-            </div>
-            <!-- Desktop: badges on right, side by side -->
-            <div class="hidden sm:flex flex-row items-center gap-1.5">
-              <span class="px-3 py-1 rounded-full bg-forest-900/50 border border-forest-700/50 text-forest-300 text-xs font-bold">LBP</span>
-              <span class="px-3 py-1 rounded-full bg-forest-900/50 border border-forest-700/50 text-forest-300 text-xs font-bold">BCITO</span>
-            </div>
-          </div>
-          <!-- Stat row -->
-          <div class="grid grid-cols-3 gap-3 mb-5">
-            <div class="text-center p-3 rounded-xl bg-white/4 border border-white/8">
-              <div class="text-forest-400 text-lg font-black">15+</div>
-              <div class="text-white/40 text-xs mt-0.5">Years Exp.</div>
-            </div>
-            <div class="text-center p-3 rounded-xl bg-white/4 border border-white/8">
-              <div class="text-forest-400 text-lg font-black">LBP</div>
-              <div class="text-white/40 text-xs mt-0.5">Licensed</div>
-            </div>
-            <div class="text-center p-3 rounded-xl bg-white/4 border border-white/8">
-              <div class="text-forest-400 text-lg font-black">🔥</div>
-              <div class="text-white/40 text-xs mt-0.5">Firefighter</div>
-            </div>
-          </div>
-          <p class="text-white/60 text-sm leading-relaxed mb-5">
-            With over 15 years of hands-on building experience, Nalin brings deep technical expertise and an unwavering commitment to quality. A BCITO-qualified Licensed Building Practitioner, he oversees all structural and compliance aspects of our projects — ensuring every build meets the highest standards. Beyond the tools, Nalin is a proud volunteer firefighter, reflecting the same dedication to community and service he brings to every client relationship.
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-white/50 text-xs font-medium">15+ Years Experience</span>
-            <span class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-white/50 text-xs font-medium">Volunteer Firefighter</span>
-            <span class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-white/50 text-xs font-medium">Residential Specialist</span>
-          </div>
-        </div>
-      </div>
-
       <!-- Quinn -->
       <div class="founder-card group relative rounded-3xl overflow-hidden border border-forest-700/30 bg-slate-800/40 backdrop-blur-sm" style="transition: transform 0.35s ease, box-shadow 0.35s ease;" onclick="openFounderSheet('quinn')">
         <!-- Logo image box -->
@@ -1578,7 +1531,58 @@
         </div>
       </div>
 
-    </div>
+    <!-- Nalin -->
+      <div class="founder-card group relative rounded-3xl overflow-hidden border border-forest-700/30 bg-slate-800/40 backdrop-blur-sm" style="transition: transform 0.35s ease, box-shadow 0.35s ease;" onclick="openFounderSheet('nalin')">
+        <!-- Logo image box -->
+        <div class="relative overflow-hidden flex items-center justify-center bg-white" style="height: 220px;">
+          <img src="Images/nalin-logo.jpg" alt="Nalin Hewawasam – Co-Founder" style="height:100%;width:100%;object-fit:contain;padding:20px;" />
+          <div class="absolute bottom-0 left-0 right-0 h-10 pointer-events-none" style="background:linear-gradient(to top,rgba(30,41,59,0.6),transparent);"></div>
+        </div>
+        <div class="founder-tap-hint">TAP FOR DETAILS ↑</div>
+        <div class="founder-click-hint">CLICK FOR DETAILS ↓</div>
+        <div class="founder-details p-8">
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 gap-2">
+            <div>
+              <p class="text-forest-400 text-sm font-semibold">Co-Founder & Licensed Builder</p>
+              <!-- Mobile: badges below title, side by side -->
+              <div class="flex gap-1.5 mt-2 sm:hidden">
+                <span class="px-3 py-1 rounded-full bg-forest-900/50 border border-forest-700/50 text-forest-300 text-xs font-bold">LBP</span>
+                <span class="px-3 py-1 rounded-full bg-forest-900/50 border border-forest-700/50 text-forest-300 text-xs font-bold">BCITO</span>
+              </div>
+            </div>
+            <!-- Desktop: badges on right, side by side -->
+            <div class="hidden sm:flex flex-row items-center gap-1.5">
+              <span class="px-3 py-1 rounded-full bg-forest-900/50 border border-forest-700/50 text-forest-300 text-xs font-bold">LBP</span>
+              <span class="px-3 py-1 rounded-full bg-forest-900/50 border border-forest-700/50 text-forest-300 text-xs font-bold">BCITO</span>
+            </div>
+          </div>
+          <!-- Stat row -->
+          <div class="grid grid-cols-3 gap-3 mb-5">
+            <div class="text-center p-3 rounded-xl bg-white/4 border border-white/8">
+              <div class="text-forest-400 text-lg font-black">15+</div>
+              <div class="text-white/40 text-xs mt-0.5">Years Exp.</div>
+            </div>
+            <div class="text-center p-3 rounded-xl bg-white/4 border border-white/8">
+              <div class="text-forest-400 text-lg font-black">LBP</div>
+              <div class="text-white/40 text-xs mt-0.5">Licensed</div>
+            </div>
+            <div class="text-center p-3 rounded-xl bg-white/4 border border-white/8">
+              <div class="text-forest-400 text-lg font-black">🔥</div>
+              <div class="text-white/40 text-xs mt-0.5">Firefighter</div>
+            </div>
+          </div>
+          <p class="text-white/60 text-sm leading-relaxed mb-5">
+            With over 15 years of hands-on building experience, Nalin brings deep technical expertise and an unwavering commitment to quality. A BCITO-qualified Licensed Building Practitioner, he oversees all structural and compliance aspects of our projects — ensuring every build meets the highest standards. Beyond the tools, Nalin is a proud volunteer firefighter, reflecting the same dedication to community and service he brings to every client relationship.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-white/50 text-xs font-medium">15+ Years Experience</span>
+            <span class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-white/50 text-xs font-medium">Volunteer Firefighter</span>
+            <span class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-white/50 text-xs font-medium">Residential Specialist</span>
+          </div>
+        </div>
+      </div>
+
+      </div>
 
   </div>
 </section>
