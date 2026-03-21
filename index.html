@@ -6,6 +6,17 @@
   <link rel="apple-touch-icon" href="Images/logo_transparent.png" />
   <meta name="apple-mobile-web-app-title" content="South Peak Builders" />
   <meta name="application-name" content="South Peak Builders" />
+  <!-- Open Graph / Link Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="South Peak Builders – Premium Construction, Canterbury NZ" />
+  <meta property="og:description" content="Licensed Building Practitioners delivering premium residential and commercial construction across Canterbury. 30+ years combined experience." />
+  <meta property="og:image" content="Images/logo_transparent.png" />
+  <meta property="og:site_name" content="South Peak Builders" />
+  <!-- Twitter/X card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="South Peak Builders" />
+  <meta name="twitter:description" content="Premium residential and commercial construction across Canterbury NZ." />
+  <meta name="twitter:image" content="Images/logo_transparent.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>South Peak Builders – Premium Residential & Commercial Construction, Canterbury NZ</title>
   <meta name="description" content="South Peak Builders – Licensed Building Practitioners delivering premium residential and commercial construction in Canterbury, New Zealand. 30+ years combined experience." />
@@ -533,12 +544,30 @@
     /* Mobile: fixed 3×3 grid, bottom sheet for desc */
     @media (max-width: 768px) {
       #services .grid { grid-template-columns: repeat(3, 1fr) !important; gap: 0.5rem !important; }
-      .svc-card { border-radius: 0.75rem; }
-      .svc-card.active .svc-desc { max-height: 0; opacity: 0; padding: 0; }
+      .svc-card { border-radius: 0.75rem; overflow: hidden; }
+      .svc-desc { display: none !important; }
       .svc-front { min-height: 90px; padding: 0.6rem 0.4rem; }
       .svc-front h3 { font-size: 0.62rem; line-height: 1.25; margin-top: 0.35rem; }
       .svc-icon-wrap { width: 2rem !important; height: 2rem !important; margin-bottom: 0 !important; }
       .svc-icon-wrap svg { width: 1rem !important; height: 1rem !important; }
+    }
+
+
+    /* Co-founders mobile: hide details, show only photo + name tap card */
+    @media (max-width: 768px) {
+      .founder-card { cursor: pointer; }
+      .founder-details { display: none; }
+      .founder-tap-hint {
+        display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+        padding: 0.6rem;
+        background: rgba(96,165,250,0.08);
+        border-top: 1px solid rgba(96,165,250,0.15);
+        color: rgba(96,165,250,0.8);
+        font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em;
+      }
+    }
+    @media (min-width: 769px) {
+      .founder-tap-hint { display: none; }
     }
 
     /* Bottom sheet */
@@ -1366,13 +1395,14 @@
     <div class="grid md:grid-cols-2 gap-8">
 
       <!-- Nalin -->
-      <div class="group relative rounded-3xl overflow-hidden border border-forest-700/30 bg-slate-800/40 backdrop-blur-sm" style="transition: transform 0.35s ease, box-shadow 0.35s ease;">
+      <div class="founder-card group relative rounded-3xl overflow-hidden border border-forest-700/30 bg-slate-800/40 backdrop-blur-sm" style="transition: transform 0.35s ease, box-shadow 0.35s ease;" onclick="openFounderSheet('nalin')">
         <!-- Logo image box -->
         <div class="relative overflow-hidden flex items-center justify-center bg-white" style="height: 220px;">
           <img src="Images/nalin-logo.jpg" alt="Nalin Hewawasam – Co-Founder" style="height:100%;width:100%;object-fit:contain;padding:20px;" />
           <div class="absolute bottom-0 left-0 right-0 h-10 pointer-events-none" style="background:linear-gradient(to top,rgba(30,41,59,0.6),transparent);"></div>
         </div>
-        <div class="p-8">
+        <div class="founder-tap-hint">TAP FOR DETAILS ↑</div>
+        <div class="founder-details p-8">
           <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 gap-2">
             <div>
               <p class="text-forest-400 text-sm font-semibold">Co-Founder & Licensed Builder</p>
@@ -1415,13 +1445,14 @@
       </div>
 
       <!-- Quinn -->
-      <div class="group relative rounded-3xl overflow-hidden border border-forest-700/30 bg-slate-800/40 backdrop-blur-sm" style="transition: transform 0.35s ease, box-shadow 0.35s ease;">
+      <div class="founder-card group relative rounded-3xl overflow-hidden border border-forest-700/30 bg-slate-800/40 backdrop-blur-sm" style="transition: transform 0.35s ease, box-shadow 0.35s ease;" onclick="openFounderSheet('quinn')">
         <!-- Logo image box -->
         <div class="relative overflow-hidden flex items-center justify-center bg-white" style="height: 220px;">
           <img src="Images/quinn-logo.jpg" alt="Quinn Johnson – Co-Founder" style="height:100%;width:100%;object-fit:contain;padding:20px;" />
           <div class="absolute bottom-0 left-0 right-0 h-10 pointer-events-none" style="background:linear-gradient(to top,rgba(30,41,59,0.6),transparent);"></div>
         </div>
-        <div class="p-8">
+        <div class="founder-tap-hint">TAP FOR DETAILS ↑</div>
+        <div class="founder-details p-8">
           <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 gap-2">
             <div>
               <p class="text-forest-400 text-sm font-semibold">Co-Founder & Licensed Builder</p>
@@ -2035,6 +2066,53 @@
   }
 
 
+
+  // ── Founder bottom sheet ──
+  var founderData = {
+    nalin: {
+      name: 'Nalin Hewawasam',
+      role: 'Co-Founder & Licensed Builder',
+      img: 'Images/nalin-logo.jpg',
+      stats: [['15+','Years Exp.'],['LBP','Licensed'],['🔥','Firefighter']],
+      bio: 'With over 15 years of hands-on building experience, Nalin brings deep technical expertise and an unwavering commitment to quality. A BCITO-qualified Licensed Building Practitioner, he oversees all structural and compliance aspects — ensuring every build meets the highest standards. Beyond the tools, Nalin is a proud volunteer firefighter.',
+      tags: ['15+ Years Experience','Volunteer Firefighter','Residential Specialist']
+    },
+    quinn: {
+      name: 'Quinn Johnson',
+      role: 'Co-Founder & Licensed Builder',
+      img: 'Images/quinn-logo.jpg',
+      stats: [['15+','Years Exp.'],['LBP','Licensed'],['🏢','Commercial']],
+      bio: "Quinn brings 15+ years of diverse construction experience, with particular expertise in commercial multi-storey developments. A BCITO-qualified Licensed Building Practitioner, his background spans complex commercial frameworks to precision residential fitouts.",
+      tags: ['15+ Years Experience','Commercial Expert','Multi-Storey Specialist']
+    }
+  };
+  function openFounderSheet(id) {
+    if (window.innerWidth > 768) return;
+    var f = founderData[id];
+    document.getElementById('founder-sheet-img').src = f.img;
+    document.getElementById('founder-sheet-name').textContent = f.name;
+    document.getElementById('founder-sheet-role').textContent = f.role;
+    document.getElementById('founder-sheet-bio').textContent  = f.bio;
+    var stats = document.getElementById('founder-sheet-stats');
+    stats.innerHTML = f.stats.map(function(s){ return '<div style="text-align:center;padding:0.5rem 0.25rem;border-radius:0.75rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);"><div style="color:#60a5fa;font-size:1rem;font-weight:900;">'+s[0]+'</div><div style="color:rgba(255,255,255,0.4);font-size:0.65rem;margin-top:2px;">'+s[1]+'</div></div>'; }).join('');
+    var tags = document.getElementById('founder-sheet-tags');
+    tags.innerHTML = f.tags.map(function(t){ return '<span style="padding:4px 10px;border-radius:0.6rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);font-size:0.7rem;">'+t+'</span>'; }).join('');
+    var sheet = document.getElementById('founder-sheet');
+    var overlay = document.getElementById('founder-sheet-overlay');
+    sheet.style.display = 'block'; overlay.style.display = 'block';
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      sheet.style.transform = 'translateY(0)';
+      overlay.style.opacity = '1';
+    }); });
+  }
+  function closeFounderSheet() {
+    var sheet = document.getElementById('founder-sheet');
+    var overlay = document.getElementById('founder-sheet-overlay');
+    sheet.style.transform = 'translateY(100%)';
+    overlay.style.opacity = '0';
+    setTimeout(function(){ sheet.style.display='none'; overlay.style.display='none'; }, 400);
+  }
+
   // ── Service cards ──
   function openSvcCard(card) {
     var isMobile = window.innerWidth <= 768;
@@ -2173,6 +2251,27 @@
 
 </script>
 
+
+
+  <!-- ── Founder bottom sheet (mobile) ── -->
+  <div id="founder-sheet-overlay" onclick="closeFounderSheet()" style="position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,0.6);opacity:0;transition:opacity 0.3s ease;display:none;"></div>
+  <div id="founder-sheet" style="position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(180deg,rgba(15,26,36,0.98),rgba(8,15,22,1));border-top:1px solid rgba(96,165,250,0.25);border-radius:1.5rem 1.5rem 0 0;padding:1.25rem 1.5rem 2.5rem;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);display:none;max-height:85vh;overflow-y:auto;">
+    <div style="width:2.5rem;height:4px;background:rgba(255,255,255,0.2);border-radius:2px;margin:0 auto 1.25rem;"></div>
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+      <img id="founder-sheet-img" src="" alt="" style="width:64px;height:64px;border-radius:0.75rem;object-fit:contain;background:white;padding:6px;" />
+      <div>
+        <p id="founder-sheet-role" style="color:rgba(96,165,250,0.9);font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.2rem;"></p>
+        <h3 id="founder-sheet-name" style="color:white;font-size:1.2rem;font-weight:900;"></h3>
+        <div style="display:flex;gap:0.4rem;margin-top:0.35rem;">
+          <span style="padding:2px 10px;border-radius:999px;background:rgba(30,58,138,0.5);border:1px solid rgba(96,165,250,0.3);color:rgba(147,197,253,1);font-size:0.65rem;font-weight:700;">LBP</span>
+          <span style="padding:2px 10px;border-radius:999px;background:rgba(30,58,138,0.5);border:1px solid rgba(96,165,250,0.3);color:rgba(147,197,253,1);font-size:0.65rem;font-weight:700;">BCITO</span>
+        </div>
+      </div>
+    </div>
+    <div id="founder-sheet-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:1rem;"></div>
+    <p id="founder-sheet-bio" style="color:rgba(255,255,255,0.65);font-size:0.82rem;line-height:1.6;margin-bottom:1rem;"></p>
+    <div id="founder-sheet-tags" style="display:flex;flex-wrap:wrap;gap:0.4rem;"></div>
+  </div>
 
   <!-- ── Service bottom sheet (mobile) ── -->
   <div id="svc-sheet-overlay" onclick="closeSvcSheet()"></div>
