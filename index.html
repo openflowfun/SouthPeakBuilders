@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="Images/logo_transparent.png" />
   <link rel="apple-touch-icon" href="Images/logo_transparent.png" />
+  <meta name="apple-mobile-web-app-title" content="South Peak Builders" />
+  <meta name="application-name" content="South Peak Builders" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>South Peak Builders – Premium Residential & Commercial Construction, Canterbury NZ</title>
   <meta name="description" content="South Peak Builders – Licensed Building Practitioners delivering premium residential and commercial construction in Canterbury, New Zealand. 30+ years combined experience." />
@@ -502,6 +504,36 @@
     #hero-headline { font-size: 1.75rem !important; }
     #hero .section-tag-badge { font-size: 0.6rem !important; }
   }
+
+    /* ── Flip Cards ── */
+    .flip-card { perspective: 1000px; cursor: pointer; height: 160px; }
+    .flip-card-inner {
+      position: relative; width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+    .flip-card-front, .flip-card-back {
+      position: absolute; inset: 0;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      border-radius: 1rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 1.25rem;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .flip-card-front {
+      background: linear-gradient(135deg, rgba(30,41,59,0.6), rgba(15,26,36,0.6));
+      backdrop-filter: blur(8px);
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(135deg, rgba(30,64,175,0.25), rgba(17,24,39,0.85));
+      backdrop-filter: blur(8px);
+      border-color: rgba(96,165,250,0.2);
+    }
+    .flip-card:hover .flip-card-front { border-color: rgba(96,165,250,0.25); }
+    @media (max-width: 768px) { .flip-card { height: 150px; } }
   </style>
 </head>
 <body class="bg-slate-950 text-white overflow-x-hidden">
@@ -1071,91 +1103,146 @@
       </p>
     </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
 
-      <!-- Card 1: Architectural Builds -->
-      <div class="service-card group p-4 rounded-2xl border border-white/8 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm reveal reveal-delay-1">
-        <div class="service-icon w-10 h-10 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
-          <svg class="w-5 h-5 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+      <div class="flip-card reveal reveal-delay-1" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
+              <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            </div>
+            <h3 class="text-sm font-bold text-white text-center">Architectural Builds</h3>
+          </div>
+          <div class="flip-card-back">
+            <p class="text-forest-300 text-xs font-semibold uppercase tracking-widest mb-2">Architectural Builds</p>
+            <p class="text-white/70 text-xs leading-relaxed text-center">Bespoke homes realised in close collaboration with your architect — complex concepts, precision craftsmanship.</p>
+          </div>
         </div>
-        <h3 class="text-sm font-bold text-white mb-1 group-hover:text-forest-300 transition-colors">Architectural Builds</h3>
-        <p class="text-white/50 text-xs leading-relaxed">Bespoke homes realised in close collaboration with your architect — complex concepts, precision craftsmanship.</p>
       </div>
 
-      <!-- Card 2: New Builds -->
-      <div class="service-card group p-4 rounded-2xl border border-white/8 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm reveal reveal-delay-2">
-        <div class="service-icon w-10 h-10 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
-          <svg class="w-5 h-5 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      <div class="flip-card reveal reveal-delay-2" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
+              <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            </div>
+            <h3 class="text-sm font-bold text-white text-center">New Builds</h3>
+          </div>
+          <div class="flip-card-back">
+            <p class="text-forest-300 text-xs font-semibold uppercase tracking-widest mb-2">New Builds</p>
+            <p class="text-white/70 text-xs leading-relaxed text-center">Complete home construction from foundation to finishing touches — on time, on budget, built to last.</p>
+          </div>
         </div>
-        <h3 class="text-sm font-bold text-white mb-1 group-hover:text-forest-300 transition-colors">New Builds</h3>
-        <p class="text-white/50 text-xs leading-relaxed">Complete home construction from foundation to finishing touches — on time, on budget, built to last.</p>
       </div>
 
-      <!-- Card 3: Renovations -->
-      <div class="service-card group p-4 rounded-2xl border border-white/8 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm reveal reveal-delay-3">
-        <div class="service-icon w-10 h-10 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
-          <svg class="w-5 h-5 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
+      <div class="flip-card reveal reveal-delay-3" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
+              <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
+            </div>
+            <h3 class="text-sm font-bold text-white text-center">Renovations</h3>
+          </div>
+          <div class="flip-card-back">
+            <p class="text-forest-300 text-xs font-semibold uppercase tracking-widest mb-2">Renovations</p>
+            <p class="text-white/70 text-xs leading-relaxed text-center">Kitchens, bathrooms, and whole-home renovations transformed with minimal disruption and maximum impact.</p>
+          </div>
         </div>
-        <h3 class="text-sm font-bold text-white mb-1 group-hover:text-forest-300 transition-colors">Renovations</h3>
-        <p class="text-white/50 text-xs leading-relaxed">Kitchens, bathrooms, and whole-home renovations transformed with minimal disruption and maximum impact.</p>
       </div>
 
-      <!-- Card 4: Multi-Unit Developments -->
-      <div class="service-card group p-4 rounded-2xl border border-white/8 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm reveal reveal-delay-4">
-        <div class="service-icon w-10 h-10 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
-          <svg class="w-5 h-5 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/></svg>
+      <div class="flip-card reveal reveal-delay-4" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
+              <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/></svg>
+            </div>
+            <h3 class="text-sm font-bold text-white text-center">Multi-Unit Developments</h3>
+          </div>
+          <div class="flip-card-back">
+            <p class="text-forest-300 text-xs font-semibold uppercase tracking-widest mb-2">Multi-Unit</p>
+            <p class="text-white/70 text-xs leading-relaxed text-center">Townhouses, apartments, and subdivisions delivered with commercial-grade project management.</p>
+          </div>
         </div>
-        <h3 class="text-sm font-bold text-white mb-1 group-hover:text-forest-300 transition-colors">Multi-Unit Developments</h3>
-        <p class="text-white/50 text-xs leading-relaxed">Townhouses, apartments, and subdivisions delivered with commercial-grade project management.</p>
       </div>
 
-      <!-- Card 5: Design & Build -->
-      <div class="service-card group p-4 rounded-2xl border border-white/8 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm reveal reveal-delay-5">
-        <div class="service-icon w-10 h-10 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
-          <svg class="w-5 h-5 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+      <div class="flip-card reveal reveal-delay-5" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
+              <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+            </div>
+            <h3 class="text-sm font-bold text-white text-center">Design &amp; Build</h3>
+          </div>
+          <div class="flip-card-back">
+            <p class="text-forest-300 text-xs font-semibold uppercase tracking-widest mb-2">Design &amp; Build</p>
+            <p class="text-white/70 text-xs leading-relaxed text-center">Design, consenting, and construction under one roof — streamlined and stress-free from day one.</p>
+          </div>
         </div>
-        <h3 class="text-sm font-bold text-white mb-1 group-hover:text-forest-300 transition-colors">Design &amp; Build</h3>
-        <p class="text-white/50 text-xs leading-relaxed">Design, consenting, and construction under one roof — streamlined and stress-free from day one.</p>
       </div>
 
-      <!-- Card 6: Residential & Commercial -->
-      <div class="service-card group p-4 rounded-2xl border border-white/8 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm reveal reveal-delay-6">
-        <div class="service-icon w-10 h-10 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
-          <svg class="w-5 h-5 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+      <div class="flip-card reveal reveal-delay-6" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
+              <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </div>
+            <h3 class="text-sm font-bold text-white text-center">Residential &amp; Commercial</h3>
+          </div>
+          <div class="flip-card-back">
+            <p class="text-forest-300 text-xs font-semibold uppercase tracking-widest mb-2">Residential &amp; Commercial</p>
+            <p class="text-white/70 text-xs leading-relaxed text-center">From family homes to commercial fitouts — the right skills, scaled to your project.</p>
+          </div>
         </div>
-        <h3 class="text-sm font-bold text-white mb-1 group-hover:text-forest-300 transition-colors">Residential &amp; Commercial</h3>
-        <p class="text-white/50 text-xs leading-relaxed">From family homes to commercial fitouts — the right skills, scaled to your project.</p>
       </div>
 
-      <!-- Card 7: Alterations -->
-      <div class="service-card group p-4 rounded-2xl border border-white/8 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm reveal reveal-delay-1">
-        <div class="service-icon w-10 h-10 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
-          <svg class="w-5 h-5 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+      <div class="flip-card reveal reveal-delay-1" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
+              <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+            </div>
+            <h3 class="text-sm font-bold text-white text-center">Alterations</h3>
+          </div>
+          <div class="flip-card-back">
+            <p class="text-forest-300 text-xs font-semibold uppercase tracking-widest mb-2">Alterations</p>
+            <p class="text-white/70 text-xs leading-relaxed text-center">Wall removals, extensions, and layout remodels — structural alterations done right.</p>
+          </div>
         </div>
-        <h3 class="text-sm font-bold text-white mb-1 group-hover:text-forest-300 transition-colors">Alterations</h3>
-        <p class="text-white/50 text-xs leading-relaxed">Wall removals, extensions, and layout remodels — structural alterations done right.</p>
       </div>
 
-      <!-- Card 8: Decks -->
-      <div class="service-card group p-4 rounded-2xl border border-white/8 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm reveal reveal-delay-2">
-        <div class="service-icon w-10 h-10 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
-          <svg class="w-5 h-5 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+      <div class="flip-card reveal reveal-delay-2" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
+              <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+            </div>
+            <h3 class="text-sm font-bold text-white text-center">Decks</h3>
+          </div>
+          <div class="flip-card-back">
+            <p class="text-forest-300 text-xs font-semibold uppercase tracking-widest mb-2">Decks</p>
+            <p class="text-white/70 text-xs leading-relaxed text-center">Custom outdoor decks in premium materials, built to extend your living space and handle Canterbury weather.</p>
+          </div>
         </div>
-        <h3 class="text-sm font-bold text-white mb-1 group-hover:text-forest-300 transition-colors">Decks</h3>
-        <p class="text-white/50 text-xs leading-relaxed">Custom outdoor decks in premium materials, built to extend your living space and handle Canterbury weather.</p>
       </div>
 
-      <!-- Card 9: Maintenance -->
-      <div class="service-card group p-4 rounded-2xl border border-white/8 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm reveal reveal-delay-3">
-        <div class="service-icon w-10 h-10 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
-          <svg class="w-5 h-5 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      <div class="flip-card reveal reveal-delay-3" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
+              <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <h3 class="text-sm font-bold text-white text-center">Maintenance</h3>
+          </div>
+          <div class="flip-card-back">
+            <p class="text-forest-300 text-xs font-semibold uppercase tracking-widest mb-2">Maintenance</p>
+            <p class="text-white/70 text-xs leading-relaxed text-center">Repairs, weatherproofing, and scheduled upkeep — your property kept in top condition year-round.</p>
+          </div>
         </div>
-        <h3 class="text-sm font-bold text-white mb-1 group-hover:text-forest-300 transition-colors">Maintenance</h3>
-        <p class="text-white/50 text-xs leading-relaxed">Repairs, weatherproofing, and scheduled upkeep — your property kept in top condition year-round.</p>
       </div>
 
     </div>
   </div>
+
 </section>
 
 <!-- ═══════════════════════════════════════ WHY CHOOSE US / STATS ═══════════════════════════════════════ -->
