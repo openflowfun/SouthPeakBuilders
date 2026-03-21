@@ -469,6 +469,11 @@
     #why-us .w-full.sm\:w-64 { padding: 1.25rem !important; }
     #why-us .stat-number { font-size: 2.75rem !important; }
     #why-us .grid.md\:grid-cols-3 { grid-template-columns: 1fr !important; gap: 1.25rem !important; }
+    /* Stats row: force 3 boxes side by side on mobile */
+    #why-us .flex.flex-wrap { flex-wrap: nowrap !important; gap: 0.4rem !important; }
+    #why-us .w-full.sm\:w-64 { width: auto !important; flex: 1 !important; padding: 0.75rem 0.4rem !important; min-width: 0 !important; }
+    #why-us .stat-number { font-size: 1.8rem !important; margin-bottom: 0.15rem !important; }
+    #why-us .w-full.sm\:w-64 p { font-size: 0.55rem !important; line-height: 1.3 !important; }
     #why-us .mb-20 { margin-bottom: 1.5rem !important; }
 
     /* ── Co-founders ── */
@@ -516,40 +521,45 @@
     #hero .section-tag-badge { font-size: 0.6rem !important; }
   }
 
-    /* ── Service Cards ── */
-    .svc-card {
-      cursor: pointer;
+    /* ── Flip Cards (Services) ── */
+    .flip-card { perspective: 1000px; cursor: pointer; }
+    .flip-card-inner {
+      position: relative; width: 100%;
+      transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+      transform-style: preserve-3d;
+      min-height: 160px;
+    }
+    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+    .flip-card-front, .flip-card-back {
+      position: absolute; width: 100%; height: 100%;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
       border-radius: 1rem;
       border: 1px solid rgba(255,255,255,0.08);
-      background: linear-gradient(135deg, rgba(30,41,59,0.6), rgba(15,26,36,0.6));
+      background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(15,26,36,0.8));
       backdrop-filter: blur(8px);
-      transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-      overflow: hidden;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 1.1rem 0.8rem; text-align: center;
+      transition: border-color 0.3s ease;
     }
-    .svc-card:hover { border-color: rgba(96,165,250,0.3); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(96,165,250,0.1); }
-    .svc-card.active { border-color: rgba(96,165,250,0.5); background: linear-gradient(135deg, rgba(30,64,175,0.25), rgba(15,26,36,0.9)); box-shadow: 0 0 20px rgba(96,165,250,0.15); }
-    .svc-front {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 1.25rem; min-height: 140px;
+    .flip-card-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(135deg, rgba(10,30,55,0.95), rgba(5,15,35,0.95));
+      border-color: rgba(96,165,250,0.35);
+      justify-content: center; padding: 1rem 0.9rem;
     }
-    /* Desktop: in-place expand */
-    .svc-desc {
-      max-height: 0; overflow: hidden; opacity: 0;
-      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease, padding 0.3s ease;
-      padding: 0 1rem; text-align: center;
-    }
-    .svc-card.active .svc-desc { max-height: 160px; opacity: 1; padding: 0 1rem 1.1rem; }
+    .flip-card:hover .flip-card-front { border-color: rgba(96,165,250,0.3); box-shadow: 0 6px 20px rgba(96,165,250,0.08); }
+    .flip-card.flipped .flip-card-front { border-color: rgba(96,165,250,0.5); }
 
-    /* Mobile: fixed 3×3 grid, bottom sheet for desc */
+    /* Mobile: compact 3×3 grid — tap opens bottom sheet */
     @media (max-width: 768px) {
       #services .grid { grid-template-columns: repeat(3, 1fr) !important; gap: 0.5rem !important; }
-      .svc-card { border-radius: 0.75rem; overflow: hidden; }
-      .svc-desc { display: none !important; }
-      .svc-front { min-height: 90px; padding: 0.6rem 0.4rem; }
-      .svc-front h3 { font-size: 0.62rem; line-height: 1.25; margin-top: 0.35rem; }
-      .svc-icon-wrap { width: 2rem !important; height: 2rem !important; margin-bottom: 0 !important; }
-      .svc-icon-wrap svg { width: 1rem !important; height: 1rem !important; }
+      .flip-card-inner { min-height: 90px !important; }
+      .flip-card-front { padding: 0.6rem 0.35rem !important; }
+      .flip-card-front .w-12 { width: 2rem !important; height: 2rem !important; margin-bottom: 0.2rem !important; }
+      .flip-card-front .w-12 svg { width: 1rem !important; height: 1rem !important; }
+      .flip-card-front h3 { font-size: 0.58rem !important; line-height: 1.2 !important; margin-top: 0.2rem !important; }
+      .flip-card.flipped .flip-card-inner { transform: none !important; }
+      .flip-card-back { display: none !important; }
     }
 
 
@@ -568,6 +578,32 @@
     }
     @media (min-width: 769px) {
       .founder-tap-hint { display: none; }
+      /* Desktop: details hidden by default, expand on click */
+      .founder-details {
+        display: block !important;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease;
+      }
+      .founder-card.open .founder-details {
+        max-height: 600px;
+        opacity: 1;
+      }
+      .founder-click-hint {
+        display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+        padding: 0.7rem;
+        background: rgba(96,165,250,0.07);
+        border-top: 1px solid rgba(96,165,250,0.15);
+        color: rgba(96,165,250,0.75);
+        font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+        transition: opacity 0.3s ease;
+      }
+      .founder-card.open .founder-click-hint { opacity: 0.4; }
+      .founder-card { cursor: pointer; }
+    }
+    @media (max-width: 768px) {
+      .founder-click-hint { display: none; }
     }
 
     /* Bottom sheet */
@@ -853,7 +889,7 @@
 </section>
 
 <!-- ═══════════════════════════════════════ ABOUT ═══════════════════════════════════════ -->
-<section id="about" class="relative py-24 lg:py-36 bg-slate-900 overflow-hidden">
+<section id="about" class="relative py-12 sm:py-16 lg:py-36 bg-slate-900 overflow-hidden">
   <!-- Subtle background accent -->
   <div class="absolute top-0 right-0 w-96 h-96 bg-forest-900/20 rounded-full blur-3xl pointer-events-none"></div>
   <div class="absolute bottom-0 left-0 w-64 h-64 bg-forest-900/15 rounded-full blur-3xl pointer-events-none"></div>
@@ -929,7 +965,7 @@
 </section>
 
 <!-- ═══════════════════════════════════════ PORTFOLIO ═══════════════════════════════════════ -->
-<section id="portfolio" class="relative py-24 lg:py-36 bg-slate-900 overflow-hidden">
+<section id="portfolio" class="relative py-12 sm:py-16 lg:py-36 bg-slate-900 overflow-hidden">
   <!-- Subtle bg glow -->
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(30,58,138,0.18),transparent);pointer-events:none;"></div>
 
@@ -1162,7 +1198,7 @@
 
     <div class="grid grid-cols-3 gap-3">
 
-      <div class="flip-card reveal reveal-delay-1" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card reveal reveal-delay-1" onclick="openSvcCard(this)">
         <div class="flip-card-inner">
           <div class="flip-card-front">
             <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
@@ -1177,7 +1213,7 @@
         </div>
       </div>
 
-      <div class="flip-card reveal reveal-delay-2" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card reveal reveal-delay-2" onclick="openSvcCard(this)">
         <div class="flip-card-inner">
           <div class="flip-card-front">
             <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
@@ -1192,7 +1228,7 @@
         </div>
       </div>
 
-      <div class="flip-card reveal reveal-delay-3" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card reveal reveal-delay-3" onclick="openSvcCard(this)">
         <div class="flip-card-inner">
           <div class="flip-card-front">
             <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
@@ -1207,7 +1243,7 @@
         </div>
       </div>
 
-      <div class="flip-card reveal reveal-delay-4" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card reveal reveal-delay-4" onclick="openSvcCard(this)">
         <div class="flip-card-inner">
           <div class="flip-card-front">
             <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
@@ -1222,7 +1258,7 @@
         </div>
       </div>
 
-      <div class="flip-card reveal reveal-delay-5" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card reveal reveal-delay-5" onclick="openSvcCard(this)">
         <div class="flip-card-inner">
           <div class="flip-card-front">
             <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
@@ -1237,7 +1273,7 @@
         </div>
       </div>
 
-      <div class="flip-card reveal reveal-delay-6" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card reveal reveal-delay-6" onclick="openSvcCard(this)">
         <div class="flip-card-inner">
           <div class="flip-card-front">
             <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
@@ -1252,7 +1288,7 @@
         </div>
       </div>
 
-      <div class="flip-card reveal reveal-delay-1" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card reveal reveal-delay-1" onclick="openSvcCard(this)">
         <div class="flip-card-inner">
           <div class="flip-card-front">
             <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
@@ -1267,7 +1303,7 @@
         </div>
       </div>
 
-      <div class="flip-card reveal reveal-delay-2" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card reveal reveal-delay-2" onclick="openSvcCard(this)">
         <div class="flip-card-inner">
           <div class="flip-card-front">
             <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
@@ -1282,7 +1318,7 @@
         </div>
       </div>
 
-      <div class="flip-card reveal reveal-delay-3" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card reveal reveal-delay-3" onclick="openSvcCard(this)">
         <div class="flip-card-inner">
           <div class="flip-card-front">
             <div class="w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
@@ -1402,6 +1438,7 @@
           <div class="absolute bottom-0 left-0 right-0 h-10 pointer-events-none" style="background:linear-gradient(to top,rgba(30,41,59,0.6),transparent);"></div>
         </div>
         <div class="founder-tap-hint">TAP FOR DETAILS ↑</div>
+        <div class="founder-click-hint">CLICK FOR DETAILS ↓</div>
         <div class="founder-details p-8">
           <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 gap-2">
             <div>
@@ -1514,7 +1551,7 @@
       <!-- FAQ Item -->
       <div class="faq-item rounded-2xl border border-white/8 bg-slate-800/40 overflow-hidden reveal reveal-delay-1">
         <button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
-          <span class="font-semibold text-white text-base">Are you licensed to build in Canterbury?</span>
+          <span class="font-semibold text-white text-base">Are you licensed to build?</span>
           <svg class="faq-icon w-5 h-5 text-forest-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
         </button>
         <div class="faq-content">
@@ -1524,7 +1561,7 @@
 
       <div class="faq-item rounded-2xl border border-white/8 bg-slate-800/40 overflow-hidden reveal reveal-delay-2">
         <button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
-          <span class="font-semibold text-white text-base">What types of projects do you take on?</span>
+          <span class="font-semibold text-white text-base">What projects do you take on?</span>
           <svg class="faq-icon w-5 h-5 text-forest-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
         </button>
         <div class="faq-content">
@@ -1534,7 +1571,7 @@
 
       <div class="faq-item rounded-2xl border border-white/8 bg-slate-800/40 overflow-hidden reveal reveal-delay-3">
         <button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
-          <span class="font-semibold text-white text-base">How does the quoting process work?</span>
+          <span class="font-semibold text-white text-base">How does quoting work?</span>
           <svg class="faq-icon w-5 h-5 text-forest-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
         </button>
         <div class="faq-content">
@@ -1544,7 +1581,7 @@
 
       <div class="faq-item rounded-2xl border border-white/8 bg-slate-800/40 overflow-hidden reveal reveal-delay-4">
         <button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
-          <span class="font-semibold text-white text-base">Do you manage building consents and council approvals?</span>
+          <span class="font-semibold text-white text-base">Do you manage consents?</span>
           <svg class="faq-icon w-5 h-5 text-forest-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
         </button>
         <div class="faq-content">
@@ -1554,7 +1591,7 @@
 
       <div class="faq-item rounded-2xl border border-white/8 bg-slate-800/40 overflow-hidden reveal reveal-delay-5">
         <button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
-          <span class="font-semibold text-white text-base">How long does a typical new build take?</span>
+          <span class="font-semibold text-white text-base">How long does a new build take?</span>
           <svg class="faq-icon w-5 h-5 text-forest-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
         </button>
         <div class="faq-content">
@@ -1564,7 +1601,7 @@
 
       <div class="faq-item rounded-2xl border border-white/8 bg-slate-800/40 overflow-hidden reveal reveal-delay-6">
         <button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
-          <span class="font-semibold text-white text-base">Do you offer a warranty on your work?</span>
+          <span class="font-semibold text-white text-base">Do you offer a warranty?</span>
           <svg class="faq-icon w-5 h-5 text-forest-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
         </button>
         <div class="faq-content">
@@ -2087,7 +2124,17 @@
     }
   };
   function openFounderSheet(id) {
-    if (window.innerWidth > 768) return;
+    if (window.innerWidth > 768) {
+      // Desktop: toggle expand in-place
+      var card = document.querySelector('[onclick="openFounderSheet(\''+id+'\')"]');
+      if (!card) { card = document.querySelector('[onclick*="openFounderSheet(\''+id+'\')"]'); }
+      if (card) {
+        var isOpen = card.classList.contains('open');
+        document.querySelectorAll('.founder-card').forEach(function(c){ c.classList.remove('open'); });
+        if (!isOpen) card.classList.add('open');
+      }
+      return;
+    }
     var f = founderData[id];
     document.getElementById('founder-sheet-img').src = f.img;
     document.getElementById('founder-sheet-name').textContent = f.name;
@@ -2117,9 +2164,9 @@
   function openSvcCard(card) {
     var isMobile = window.innerWidth <= 768;
     if (isMobile) {
-      // bottom sheet
-      var title = card.querySelector('h3').textContent;
-      var desc  = card.querySelector('.svc-desc p:last-child').textContent;
+      // Mobile: bottom sheet
+      var title = card.querySelector('.flip-card-front h3').textContent;
+      var desc  = card.querySelector('.flip-card-back p:last-child').textContent;
       document.getElementById('svc-sheet-label').textContent = 'Our Services';
       document.getElementById('svc-sheet-title').textContent = title;
       document.getElementById('svc-sheet-desc').textContent  = desc;
@@ -2127,8 +2174,6 @@
       var overlay = document.getElementById('svc-sheet-overlay');
       sheet.style.display   = 'block';
       overlay.style.display = 'block';
-      document.querySelectorAll('.svc-card').forEach(function(c){ c.classList.remove('active'); });
-      card.classList.add('active');
       requestAnimationFrame(function(){
         requestAnimationFrame(function(){
           sheet.classList.add('open');
@@ -2136,10 +2181,10 @@
         });
       });
     } else {
-      // desktop: in-place expand
-      var isOpen = card.classList.contains('active');
-      document.querySelectorAll('.svc-card').forEach(function(c){ c.classList.remove('active'); });
-      if (!isOpen) card.classList.add('active');
+      // Desktop: 3D flip
+      var isFlipped = card.classList.contains('flipped');
+      document.querySelectorAll('.flip-card').forEach(function(c){ c.classList.remove('flipped'); });
+      if (!isFlipped) card.classList.add('flipped');
     }
   }
   function closeSvcSheet() {
