@@ -505,40 +505,63 @@
     #hero .section-tag-badge { font-size: 0.6rem !important; }
   }
 
-    /* ── Service Expand Cards ── */
+    /* ── Service Cards ── */
     .svc-card {
       cursor: pointer;
       border-radius: 1rem;
       border: 1px solid rgba(255,255,255,0.08);
       background: linear-gradient(135deg, rgba(30,41,59,0.6), rgba(15,26,36,0.6));
       backdrop-filter: blur(8px);
-      transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+      transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
       overflow: hidden;
     }
-    .svc-card:hover { border-color: rgba(96,165,250,0.25); }
-    .svc-card.expanded {
-      border-color: rgba(96,165,250,0.35);
-      background: linear-gradient(135deg, rgba(30,64,175,0.2), rgba(15,26,36,0.9));
-      box-shadow: 0 0 24px rgba(96,165,250,0.1);
-    }
+    .svc-card:hover { border-color: rgba(96,165,250,0.3); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(96,165,250,0.1); }
+    .svc-card.active { border-color: rgba(96,165,250,0.5); background: linear-gradient(135deg, rgba(30,64,175,0.25), rgba(15,26,36,0.9)); box-shadow: 0 0 20px rgba(96,165,250,0.15); }
     .svc-front {
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       padding: 1.25rem; min-height: 140px;
-      transition: padding 0.3s ease;
     }
+    /* Desktop: in-place expand */
     .svc-desc {
       max-height: 0; overflow: hidden; opacity: 0;
       transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease, padding 0.3s ease;
       padding: 0 1rem; text-align: center;
     }
-    .svc-card.expanded .svc-desc { max-height: 160px; opacity: 1; padding: 0 1rem 1.1rem; }
+    .svc-card.active .svc-desc { max-height: 160px; opacity: 1; padding: 0 1rem 1.1rem; }
+
+    /* Mobile: fixed 3×3 grid, bottom sheet for desc */
     @media (max-width: 768px) {
-      .svc-front { min-height: 100px; padding: 0.75rem; }
-      .svc-front h3 { font-size: 0.68rem; line-height: 1.3; }
-      .svc-icon-wrap { width: 2.25rem !important; height: 2.25rem !important; margin-bottom: 0.5rem; }
-      .svc-icon-wrap svg { width: 1.1rem !important; height: 1.1rem !important; }
+      #services .grid { grid-template-columns: repeat(3, 1fr) !important; gap: 0.5rem !important; }
+      .svc-card { border-radius: 0.75rem; }
+      .svc-card.active .svc-desc { max-height: 0; opacity: 0; padding: 0; }
+      .svc-front { min-height: 90px; padding: 0.6rem 0.4rem; }
+      .svc-front h3 { font-size: 0.62rem; line-height: 1.25; margin-top: 0.35rem; }
+      .svc-icon-wrap { width: 2rem !important; height: 2rem !important; margin-bottom: 0 !important; }
+      .svc-icon-wrap svg { width: 1rem !important; height: 1rem !important; }
     }
+
+    /* Bottom sheet */
+    #svc-sheet {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+      background: linear-gradient(180deg, rgba(15,26,36,0.97), rgba(8,15,22,0.99));
+      border-top: 1px solid rgba(96,165,250,0.25);
+      border-radius: 1.25rem 1.25rem 0 0;
+      padding: 1.25rem 1.5rem 2rem;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+      backdrop-filter: blur(20px);
+      display: none;
+    }
+    #svc-sheet.open { transform: translateY(0); display: block; }
+    #svc-sheet-handle { width: 2.5rem; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin: 0 auto 1rem; }
+    #svc-sheet-overlay {
+      position: fixed; inset: 0; z-index: 9998;
+      background: rgba(0,0,0,0.5);
+      opacity: 0; transition: opacity 0.3s ease;
+      display: none;
+    }
+    #svc-sheet-overlay.open { opacity: 1; display: block; }
   </style>
 </head>
 <body class="bg-slate-950 text-white overflow-x-hidden">
@@ -1110,7 +1133,7 @@
 
 
     <div class="grid grid-cols-3 gap-3">
-      <div class="svc-card reveal reveal-delay-1" onclick="this.classList.toggle('expanded')">
+      <div class="svc-card reveal reveal-delay-1" onclick="openSvcCard(this)">
         <div class="svc-front">
           <div class="svc-icon-wrap w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
             <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
@@ -1122,7 +1145,7 @@
           <p class="text-white/65 text-xs leading-relaxed">Bespoke homes realised in close collaboration with your architect — complex concepts, precision craftsmanship.</p>
         </div>
       </div>
-      <div class="svc-card reveal reveal-delay-2" onclick="this.classList.toggle('expanded')">
+      <div class="svc-card reveal reveal-delay-2" onclick="openSvcCard(this)">
         <div class="svc-front">
           <div class="svc-icon-wrap w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
             <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
@@ -1134,7 +1157,7 @@
           <p class="text-white/65 text-xs leading-relaxed">Complete home construction from foundation to finishing touches — on time, on budget, built to last.</p>
         </div>
       </div>
-      <div class="svc-card reveal reveal-delay-3" onclick="this.classList.toggle('expanded')">
+      <div class="svc-card reveal reveal-delay-3" onclick="openSvcCard(this)">
         <div class="svc-front">
           <div class="svc-icon-wrap w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
             <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
@@ -1146,7 +1169,7 @@
           <p class="text-white/65 text-xs leading-relaxed">Kitchens, bathrooms, and whole-home renovations transformed with minimal disruption and maximum impact.</p>
         </div>
       </div>
-      <div class="svc-card reveal reveal-delay-4" onclick="this.classList.toggle('expanded')">
+      <div class="svc-card reveal reveal-delay-4" onclick="openSvcCard(this)">
         <div class="svc-front">
           <div class="svc-icon-wrap w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
             <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/></svg>
@@ -1158,7 +1181,7 @@
           <p class="text-white/65 text-xs leading-relaxed">Townhouses, apartments, and subdivisions delivered with commercial-grade project management.</p>
         </div>
       </div>
-      <div class="svc-card reveal reveal-delay-5" onclick="this.classList.toggle('expanded')">
+      <div class="svc-card reveal reveal-delay-5" onclick="openSvcCard(this)">
         <div class="svc-front">
           <div class="svc-icon-wrap w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
             <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
@@ -1170,7 +1193,7 @@
           <p class="text-white/65 text-xs leading-relaxed">Design, consenting, and construction under one roof — streamlined and stress-free from day one.</p>
         </div>
       </div>
-      <div class="svc-card reveal reveal-delay-6" onclick="this.classList.toggle('expanded')">
+      <div class="svc-card reveal reveal-delay-6" onclick="openSvcCard(this)">
         <div class="svc-front">
           <div class="svc-icon-wrap w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
             <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
@@ -1182,7 +1205,7 @@
           <p class="text-white/65 text-xs leading-relaxed">From family homes to commercial fitouts — the right skills, scaled to your project.</p>
         </div>
       </div>
-      <div class="svc-card reveal reveal-delay-1" onclick="this.classList.toggle('expanded')">
+      <div class="svc-card reveal reveal-delay-1" onclick="openSvcCard(this)">
         <div class="svc-front">
           <div class="svc-icon-wrap w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
             <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
@@ -1194,7 +1217,7 @@
           <p class="text-white/65 text-xs leading-relaxed">Wall removals, extensions, and layout remodels — structural alterations done right.</p>
         </div>
       </div>
-      <div class="svc-card reveal reveal-delay-2" onclick="this.classList.toggle('expanded')">
+      <div class="svc-card reveal reveal-delay-2" onclick="openSvcCard(this)">
         <div class="svc-front">
           <div class="svc-icon-wrap w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
             <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
@@ -1206,7 +1229,7 @@
           <p class="text-white/65 text-xs leading-relaxed">Custom outdoor decks in premium materials, built to extend your living space and handle Canterbury weather.</p>
         </div>
       </div>
-      <div class="svc-card reveal reveal-delay-3" onclick="this.classList.toggle('expanded')">
+      <div class="svc-card reveal reveal-delay-3" onclick="openSvcCard(this)">
         <div class="svc-front">
           <div class="svc-icon-wrap w-12 h-12 rounded-xl bg-forest-900/40 border border-forest-700/30 flex items-center justify-center mb-3">
             <svg class="w-6 h-6 text-forest-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
@@ -1727,40 +1750,6 @@
     #hero .section-tag-badge { font-size: 0.6rem !important; }
   }
 
-    /* ── Service Expand Cards ── */
-    .svc-card {
-      cursor: pointer;
-      border-radius: 1rem;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: linear-gradient(135deg, rgba(30,41,59,0.6), rgba(15,26,36,0.6));
-      backdrop-filter: blur(8px);
-      transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-      overflow: hidden;
-    }
-    .svc-card:hover { border-color: rgba(96,165,250,0.25); }
-    .svc-card.expanded {
-      border-color: rgba(96,165,250,0.35);
-      background: linear-gradient(135deg, rgba(30,64,175,0.2), rgba(15,26,36,0.9));
-      box-shadow: 0 0 24px rgba(96,165,250,0.1);
-    }
-    .svc-front {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 1.25rem; min-height: 140px;
-      transition: padding 0.3s ease;
-    }
-    .svc-desc {
-      max-height: 0; overflow: hidden; opacity: 0;
-      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease, padding 0.3s ease;
-      padding: 0 1rem; text-align: center;
-    }
-    .svc-card.expanded .svc-desc { max-height: 160px; opacity: 1; padding: 0 1rem 1.1rem; }
-    @media (max-width: 768px) {
-      .svc-front { min-height: 100px; padding: 0.75rem; }
-      .svc-front h3 { font-size: 0.68rem; line-height: 1.3; }
-      .svc-icon-wrap { width: 2.25rem !important; height: 2.25rem !important; margin-bottom: 0.5rem; }
-      .svc-icon-wrap svg { width: 1.1rem !important; height: 1.1rem !important; }
-    }
   </style>
 </head>
 <body class="bg-slate-950 text-white overflow-x-hidden">
@@ -3233,6 +3222,45 @@
     }, 1500);
   }
 
+
+  // ── Service cards ──
+  function openSvcCard(card) {
+    var isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      // bottom sheet
+      var title = card.querySelector('h3').textContent;
+      var desc  = card.querySelector('.svc-desc p:last-child').textContent;
+      document.getElementById('svc-sheet-label').textContent = 'Our Services';
+      document.getElementById('svc-sheet-title').textContent = title;
+      document.getElementById('svc-sheet-desc').textContent  = desc;
+      var sheet   = document.getElementById('svc-sheet');
+      var overlay = document.getElementById('svc-sheet-overlay');
+      sheet.style.display   = 'block';
+      overlay.style.display = 'block';
+      document.querySelectorAll('.svc-card').forEach(function(c){ c.classList.remove('active'); });
+      card.classList.add('active');
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          sheet.classList.add('open');
+          overlay.classList.add('open');
+        });
+      });
+    } else {
+      // desktop: in-place expand
+      var isOpen = card.classList.contains('active');
+      document.querySelectorAll('.svc-card').forEach(function(c){ c.classList.remove('active'); });
+      if (!isOpen) card.classList.add('active');
+    }
+  }
+  function closeSvcSheet() {
+    var sheet   = document.getElementById('svc-sheet');
+    var overlay = document.getElementById('svc-sheet-overlay');
+    sheet.classList.remove('open');
+    overlay.classList.remove('open');
+    document.querySelectorAll('.svc-card').forEach(function(c){ c.classList.remove('active'); });
+    setTimeout(function(){ sheet.style.display='none'; overlay.style.display='none'; }, 400);
+  }
+
   // ── Smooth scroll for nav anchors ──
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
@@ -3332,6 +3360,16 @@
   })();
 
 </script>
+
+
+  <!-- ── Service bottom sheet (mobile) ── -->
+  <div id="svc-sheet-overlay" onclick="closeSvcSheet()"></div>
+  <div id="svc-sheet">
+    <div id="svc-sheet-handle"></div>
+    <p id="svc-sheet-label" class="text-forest-400 text-xs font-semibold uppercase tracking-widest mb-1.5"></p>
+    <h3 id="svc-sheet-title" class="text-white text-lg font-black mb-2"></h3>
+    <p id="svc-sheet-desc" class="text-white/65 text-sm leading-relaxed"></p>
+  </div>
 
 </body>
 </html>
