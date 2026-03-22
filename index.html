@@ -742,7 +742,7 @@
     #bp-global {
       position: fixed;
       inset: 0;
-      z-index: 0;
+      z-index: -1;
       pointer-events: none;
       overflow: hidden;
     }
@@ -863,21 +863,21 @@
       100% { transform: translate(-50%,-50%) scale(3);  opacity: 0; }
     }
     .touch-glow-ring {
-      position: fixed; pointer-events: none; z-index: 9999;
-      border-radius: 50%; width: 90px; height: 90px;
-      background: radial-gradient(circle, rgba(147,197,253,0.35) 0%, rgba(96,165,250,0.20) 35%,
-                  rgba(59,130,246,0.08) 65%, transparent 80%);
-      animation: touchGlow 0.9s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
-      box-shadow: 0 0 10px rgba(96,165,250,0.25), 0 0 25px rgba(59,130,246,0.12);
+      position: fixed; pointer-events: none; z-index: 2;
+      border-radius: 50%; width: 80px; height: 80px;
+      background: radial-gradient(circle, rgba(147,197,253,0.12) 0%, rgba(96,165,250,0.07) 40%,
+                  rgba(59,130,246,0.03) 70%, transparent 100%);
+      animation: touchGlow 1.0s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+      box-shadow: none;
     }
     .touch-ripple {
-      position: fixed; pointer-events: none; z-index: 9998;
+      position: fixed; pointer-events: none; z-index: 2;
       border-radius: 50%; width: 80px; height: 80px;
-      border: 2px solid rgba(147,197,253,0.6);
+      border: 1px solid rgba(147,197,253,0.15);
       animation: touchRipple 1.1s ease-out forwards;
     }
     .touch-ripple2 {
-      position: fixed; pointer-events: none; z-index: 9997;
+      position: fixed; pointer-events: none; z-index: 2;
       border-radius: 50%; width: 60px; height: 60px;
       border: 1.5px solid rgba(96,165,250,0.4);
       animation: touchRipple 1.3s ease-out forwards 0.1s;
@@ -1284,23 +1284,31 @@
         </p>
       </div>
 
-      <!-- Right: feature image levelled with description -->
-      <div class="reveal reveal-right reveal-delay-2">
-        <div class="relative rounded-3xl overflow-hidden shadow-2xl" style="box-shadow: 0 32px 80px rgba(30,58,138,0.25);">
-          <video
-            autoplay
-            muted
-            loop
-            playsinline
-            webkit-playsinline
-            preload="auto"
-            class="w-full h-full object-cover"
-            style="aspect-ratio: 4/3;"
-          ><source src="about.mp4" type="video/mp4" /></video>
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/50 via-transparent to-transparent"></div>
-          <div class="absolute bottom-5 left-5 flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-semibold tracking-wide">
-            <span class="w-1.5 h-1.5 rounded-full bg-forest-400 animate-pulse"></span>
-            South Peak Build - Canterbury, New Zealand
+      <!-- Right: feature video — full on mobile, small floating on desktop -->
+      <div class="reveal reveal-right reveal-delay-2 lg:flex lg:items-end lg:justify-end">
+        <div class="relative rounded-2xl overflow-hidden shadow-2xl"
+          style="box-shadow: 0 20px 50px rgba(30,58,138,0.35);">
+          <!-- Desktop: small floating corner video -->
+          <style>
+            @media (min-width:1024px) {
+              #about-vid-wrap { width: 280px; }
+            }
+            @media (max-width:1023px) {
+              #about-vid-wrap { width: 100%; }
+            }
+          </style>
+          <div id="about-vid-wrap">
+            <video
+              autoplay muted loop playsinline webkit-playsinline preload="auto"
+              class="w-full h-full object-cover"
+              style="aspect-ratio: 4/3; display:block;"
+            ><source src="about.mp4" type="video/mp4" /></video>
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/50 via-transparent to-transparent"></div>
+            <div class="absolute bottom-3 left-3 flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-semibold tracking-wide">
+              <span class="w-1.5 h-1.5 rounded-full bg-forest-400 animate-pulse"></span>
+              <span class="hidden sm:inline">South Peak Build - Canterbury, New Zealand</span>
+              <span class="sm:hidden">Canterbury, NZ</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1931,7 +1939,7 @@
           <svg class="faq-icon w-5 h-5 text-forest-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
         </button>
         <div class="faq-content">
-          <p class="px-6 pb-6 text-white/60 text-sm leading-relaxed">Yes. Both Nalin and Quinn are Licensed Building Practitioners (LBP) registered with the New Zealand Building Practitioners Board, and BCITO qualified. We carry full insurance and operate in full compliance with the New Zealand Building Code and Canterbury City Council requirements.</p>
+          <p class="px-6 pb-6 text-white/60 text-sm leading-relaxed">Yes. Both Quinn and Nalin are Licensed Building Practitioners (LBP) registered with the New Zealand Building Practitioners Board, and BCITO qualified. We carry full insurance and operate in full compliance with the New Zealand Building Code and Canterbury City Council requirements.</p>
         </div>
       </div>
 
@@ -2482,14 +2490,6 @@
 
   // ── Founder bottom sheet ──
   var founderData = {
-    nalin: {
-      name: 'Nalin Hewawasam',
-      role: 'Co-Founder & Licensed Builder',
-      img: 'Images/nalin-logo.jpg',
-      stats: [['15+','Years Exp.'],['LBP','Licensed'],['🔥','Firefighter']],
-      bio: 'With over 15 years of hands-on building experience, Nalin brings deep technical expertise and an unwavering commitment to quality. A BCITO-qualified Licensed Building Practitioner, he oversees all structural and compliance aspects — ensuring every build meets the highest standards. Beyond the tools, Nalin is a proud volunteer firefighter.',
-      tags: ['15+ Years Experience','Volunteer Firefighter','Residential Specialist']
-    },
     quinn: {
       name: 'Quinn Johnson',
       role: 'Co-Founder & Licensed Builder',
@@ -2497,6 +2497,14 @@
       stats: [['15+','Years Exp.'],['LBP','Licensed'],['🏢','Commercial']],
       bio: "Quinn brings 15+ years of diverse construction experience, with particular expertise in commercial multi-storey developments. A BCITO-qualified Licensed Building Practitioner, his background spans complex commercial frameworks to precision residential fitouts.",
       tags: ['15+ Years Experience','Commercial Expert','Multi-Storey Specialist']
+    },
+    nalin: {
+      name: 'Nalin Hewawasam',
+      role: 'Co-Founder & Licensed Builder',
+      img: 'Images/nalin-logo.jpg',
+      stats: [['15+','Years Exp.'],['LBP','Licensed'],['🔥','Firefighter']],
+      bio: 'With over 15 years of hands-on building experience, Nalin brings deep technical expertise and an unwavering commitment to quality. A BCITO-qualified Licensed Building Practitioner, he oversees all structural and compliance aspects — ensuring every build meets the highest standards. Beyond the tools, Nalin is a proud volunteer firefighter.',
+      tags: ['15+ Years Experience','Volunteer Firefighter','Residential Specialist']
     }
   };
   function openFounderSheet(id) {
