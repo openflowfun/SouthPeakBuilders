@@ -562,6 +562,23 @@
     /* ── Section scroll offset (sticky nav = 112px) ── */
     section[id] { scroll-margin-top: 7rem; }
 
+    /* ── Desktop-only layout: narrow right column for video + form ── */
+    @media (min-width: 1024px) {
+      /* About Us: text takes most space, video box is compact on the right */
+      #about .grid.lg\:grid-cols-2 {
+        grid-template-columns: 1fr 300px !important;
+        align-items: center !important;
+      }
+      #about-vid-wrap { width: 100% !important; }
+
+      /* Contact: details take most space, form is a compact box on the right */
+      #contact .grid.lg\:grid-cols-2 {
+        grid-template-columns: 1fr 360px !important;
+        align-items: start !important;
+      }
+    }
+
+
     /* ── Flip Cards (Services) ── */
     .flip-card { perspective: 1000px; cursor: pointer; }
     .flip-card-inner {
