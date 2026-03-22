@@ -562,20 +562,30 @@
     /* ── Section scroll offset (sticky nav = 112px) ── */
     section[id] { scroll-margin-top: 7rem; }
 
-    /* ── Desktop-only layout: narrow right column for video + form ── */
+    /* ── Desktop-only layout: smaller right-side boxes ── */
     @media (min-width: 1024px) {
-      /* About Us: text takes most space, video box is compact on the right */
-      #about .grid.lg\:grid-cols-2 {
-        grid-template-columns: 1fr 300px !important;
+      /* About Us — text wide left, video compact right */
+      #about-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 260px !important;
+        gap: 2.5rem !important;
         align-items: center !important;
       }
       #about-vid-wrap { width: 100% !important; }
 
-      /* Contact: details take most space, form is a compact box on the right */
-      #contact .grid.lg\:grid-cols-2 {
-        grid-template-columns: 1fr 360px !important;
+      /* Contact — contact details fixed left, form fills right */
+      #contact-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 400px !important;
+        gap: 2rem !important;
         align-items: start !important;
       }
+    }
+    /* Mobile — both stack single column */
+    @media (max-width: 1023px) {
+      #about-grid  { display: grid !important; grid-template-columns: 1fr !important; }
+      #contact-grid { display: grid !important; grid-template-columns: 1fr !important; }
+      #about-vid-wrap { width: 100% !important; }
     }
 
 
@@ -996,7 +1006,7 @@
     </div>
 
     <!-- Description + Image: two-column levelled -->
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-16">
+    <div id="about-grid" class="grid gap-12 lg:gap-16 mb-16">
 
       <!-- Left: description only -->
       <div class="space-y-5 text-white/65 text-base lg:text-lg leading-relaxed reveal reveal-delay-2">
@@ -1009,7 +1019,7 @@
       </div>
 
       <!-- Right: feature video — full on mobile, small floating on desktop -->
-      <div class="reveal reveal-right reveal-delay-2 lg:flex lg:items-end lg:justify-end">
+      <div class="reveal reveal-right reveal-delay-2">
         <div class="relative rounded-2xl overflow-hidden shadow-2xl"
           style="box-shadow: 0 20px 50px rgba(30,58,138,0.35);">
           <!-- Desktop: small floating corner video -->
@@ -1739,7 +1749,7 @@
       </p>
     </div>
 
-    <div class="grid lg:grid-cols-2 gap-8 items-stretch">
+    <div id="contact-grid" class="grid gap-8">
 
       <!-- Left: Contact details -->
       <div class="flex flex-col">
