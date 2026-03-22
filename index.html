@@ -443,6 +443,20 @@
     section .max-w-7xl { padding-left: 0 !important; padding-right: 0 !important; }
 
     /* ── About section ── */
+
+    /* Canterbury NZ badge — smaller & centered on mobile */
+    .hero-badge-wrap {
+      gap: 0.4rem !important;
+      margin-bottom: 1rem !important;
+    }
+    .hero-badge-wrap img {
+      height: 26px !important;
+    }
+    .hero-badge-text {
+      font-size: 0.58rem !important;
+      padding: 0.2rem 0.6rem !important;
+      letter-spacing: 0.10em !important;
+    }
     #about .grid.lg\:grid-cols-2 { grid-template-columns: 1fr !important; gap: 2rem !important; }
     #about .mb-20 { margin-bottom: 2rem !important; }
     #about .mb-16 { margin-bottom: 1.5rem !important; }
@@ -557,25 +571,20 @@
     #hero-headline { font-size: 1.75rem !important; }
     #hero .section-tag-badge { font-size: 0.6rem !important; }
 
-    /* Canterbury NZ badge — smaller & centered on mobile */
-    .hero-badge-wrap {
-      gap: 0.5rem !important;
-      margin-bottom: 1.25rem !important;
-      justify-content: center !important;
-    }
-    .hero-badge-wrap img {
-      height: 28px !important;
-    }
-    .hero-badge-text {
-      font-size: 0.6rem !important;
-      padding: 0.25rem 0.7rem !important;
-      letter-spacing: 0.12em !important;
-    }
   }
 
 
     /* ── Section scroll offset (sticky nav = 112px) ── */
     section[id] { scroll-margin-top: 7rem; }
+
+    /* Hide native video play button / controls on all browsers */
+    #hero-video::-webkit-media-controls            { display:none !important; }
+    #hero-video::-webkit-media-controls-panel      { display:none !important; }
+    #hero-video::-webkit-media-controls-play-button{ display:none !important; }
+    #hero-video::-webkit-media-controls-start-playback-button { display:none !important; }
+    #hero-video::-webkit-media-controls-overlay-play-button   { display:none !important; }
+    #hero-video::slotted(*) { display:none !important; }
+
 
     /* ── Desktop-only layout: smaller right-side boxes ── */
     @media (min-width: 1024px) {
@@ -829,15 +838,26 @@
       (function(){
         var v = document.getElementById('hero-video');
         if (!v) return;
-        v.setAttribute('playsinline','');
-        v.setAttribute('webkit-playsinline','');
         v.muted = true;
         v.controls = false;
-        var p = v.play();
-        if (p && p.catch) p.catch(function(){});
-        document.addEventListener('touchstart', function(){
-          if (v.paused) { v.muted=true; v.play().catch(function(){}); }
-        }, {once:true, passive:true});
+        v.setAttribute('playsinline', '');
+        v.setAttribute('webkit-playsinline', '');
+        v.setAttribute('x-webkit-airplay', 'deny');
+        // Try to play immediately
+        function tryPlay() {
+          v.muted = true;
+          var p = v.play();
+          if (p) p.catch(function(){});
+        }
+        tryPlay();
+        // Retry on any user interaction (needed for some iOS versions)
+        ['touchstart','touchend','click','scroll'].forEach(function(e){
+          document.addEventListener(e, function(){ if(v.paused) tryPlay(); }, {once:true, passive:true});
+        });
+        // Also retry when page becomes visible (e.g. switching tabs back)
+        document.addEventListener('visibilitychange', function(){
+          if (!document.hidden && v.paused) tryPlay();
+        });
       })();
     </script>
     <!-- Overlays -->
