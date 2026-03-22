@@ -477,45 +477,11 @@
     #pf-next { right: 4px !important; width: 38px !important; height: 38px !important; }
 
 
-    /* ── Value Pillar Cards ── */
-    .pillar-card {
-      border-radius: 1rem;
-      border: 1px solid rgba(96,165,250,0.12);
-      background: rgba(15,26,46,0.45);
-      transition: border-color 0.3s ease, background 0.3s ease;
-    }
-    .pillar-header {
-      display: flex; align-items: center; gap: 0.75rem;
-      padding: 1rem 1.1rem;
-    }
-    .pillar-body { padding: 0 1.1rem 1rem; }
-    .pillar-chevron { transition: transform 0.35s ease; }
-    .pillar-card.open .pillar-chevron { transform: rotate(180deg); }
-    /* Desktop: always show body */
-    @media (min-width: 769px) {
-      .pillar-card { background: transparent; border: none; }
-      .pillar-body { padding: 0; max-height: none !important; overflow: visible !important; opacity: 1 !important; }
-      .pillar-header { padding: 0 0 1rem 0; }
-    }
-    /* Mobile: body hidden, expands on click */
-    @media (max-width: 768px) {
-      .pillar-card { cursor: pointer; }
-      .pillar-body {
-        max-height: 0; overflow: hidden; opacity: 0;
-        transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
-      }
-      .pillar-card.open .pillar-body { max-height: 120px; opacity: 1; }
-      .pillar-card.open { border-color: rgba(96,165,250,0.3); background: rgba(15,30,60,0.6); }
-    }
-
     /* ── Why South Peak / Stats ── */
     #why-us .text-center.mb-16 { margin-bottom: 1.5rem !important; }
     #why-us h2 { font-size: 1.875rem !important; }
-    #why-us .flex.flex-wrap { gap: 0.75rem !important; }
-    #why-us .w-full.sm\:w-64 { padding: 1.25rem !important; }
-    #why-us .stat-number { font-size: 2.75rem !important; }
     #why-us .grid.md\:grid-cols-3 { grid-template-columns: 1fr !important; gap: 1.25rem !important; }
-    /* Stats row: force 3 boxes side by side on mobile */
+    /* Stats row: 3 boxes side by side */
     #why-us .flex.flex-wrap { flex-wrap: nowrap !important; gap: 0.4rem !important; }
     #why-us .w-full.sm\:w-64 { width: auto !important; flex: 1 !important; padding: 0.75rem 0.4rem !important; min-width: 0 !important; }
     #why-us .stat-number { font-size: 1.8rem !important; margin-bottom: 0.15rem !important; }
@@ -561,6 +527,15 @@
     /* ── Stats section hero buttons ── */
     .flex.gap-4.justify-center { flex-direction: column !important; align-items: center !important; gap: 0.75rem !important; }
     .btn-primary { width: 100% !important; justify-content: center !important; }
+
+    /* ── Value Pillar Cards – mobile accordion overrides ── */
+    .pillar-card { cursor: pointer; }
+    .pillar-body {
+      max-height: 0; overflow: hidden; opacity: 0;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
+    }
+    .pillar-card.open .pillar-body { max-height: 120px; opacity: 1; }
+    .pillar-card.open { border-color: rgba(96,165,250,0.3); background: rgba(15,30,60,0.6); }
 
     /* ── Modals ── */
     .modal-panel { border-radius: 1.25rem !important; }
@@ -2918,167 +2893,32 @@ PE html>
      Desktop layout is untouched
   ════════════════════════════════════════════ */
 
+  /* ── Value Pillar Cards – base styles (all viewports) ── */
+  .pillar-card {
+    border-radius: 1rem;
+    border: 1px solid rgba(96,165,250,0.12);
+    background: rgba(15,26,46,0.45);
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  .pillar-header {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 1rem 1.1rem;
+  }
+  .pillar-body { padding: 0 1.1rem 1rem; }
+  .pillar-chevron { transition: transform 0.35s ease; }
+  .pillar-card.open .pillar-chevron { transform: rotate(180deg); }
+
+  /* ── Value Pillar Cards – desktop: always show body ── */
+  @media (min-width: 769px) {
+    .pillar-card { background: transparent; border: none; }
+    .pillar-body { padding: 0; max-height: none !important; overflow: visible !important; opacity: 1 !important; }
+    .pillar-header { padding: 0 0 1rem 0; }
+  }
+
   /* ── Hide custom cursor on touch devices ── */
   @media (hover: none), (pointer: coarse) {
     * { cursor: auto !important; }
     #cursor-dot, #cursor-ring, .cursor-ripple { display: none !important; }
-  }
-
-  @media (max-width: 768px) {
-
-    /* ── Navbar ── */
-    #navbar { padding-left: 1rem; padding-right: 1rem; }
-    #navbar .max-w-7xl { height: 4.5rem; }
-    #navbar img { height: 4.75rem !important; width: auto !important; }
-
-    /* ── Hero ── */
-    #hero .relative.z-10 { padding-top: 6rem; padding-left: 1.25rem; padding-right: 1.25rem; }
-    #hero-headline { font-size: 2.1rem !important; line-height: 1.1 !important; }
-    #hero .whitespace-nowrap { white-space: normal !important; font-size: 0.75rem; }
-    #hero .text-white\/60 { white-space: normal !important; }
-    #hero .flex.gap-4 { flex-direction: column; align-items: center; gap: 0.75rem; }
-    #hero .max-w-2xl { margin-left: 0; margin-right: 0; }
-
-    /* ── Footer headings on mobile ── */
-    footer h4 { letter-spacing: 0.05em !important; font-size: 0.7rem !important; }
-
-    /* ── Contact trust strip ── */
-    #contact .mt-auto.pt-5 { margin-top: 2rem !important; }
-    #contact .mt-auto.pt-5 p.text-xs { font-size: 0.65rem !important; line-height: 1.5 !important; }
-
-    /* ── Section padding ── */
-    section { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
-    section .max-w-7xl { padding-left: 0 !important; padding-right: 0 !important; }
-
-    /* ── About section ── */
-    #about .grid.lg\:grid-cols-2 { grid-template-columns: 1fr !important; gap: 2rem !important; }
-    #about .mb-20 { margin-bottom: 2rem !important; }
-    #about .mb-16 { margin-bottom: 1.5rem !important; }
-    #about video { aspect-ratio: 16/9 !important; }
-    #about h2 { font-size: 1.875rem !important; }
-
-    /* ── Services section ── */
-    #services .grid { grid-template-columns: 1fr !important; gap: 0.625rem !important; }
-    #services .text-2xl { font-size: 1.5rem !important; }
-    #services h2 { font-size: 1.75rem !important; }
-
-    /* ── Portfolio ── */
-    #portfolio .flex-col.sm\:flex-row { flex-direction: column !important; }
-    #portfolio h2 { font-size: 1.875rem !important; }
-    #portfolio .mb-14 { margin-bottom: 1.5rem !important; }
-    /* Nav buttons flush with stage */
-    #pf-prev { left: 4px !important; width: 38px !important; height: 38px !important; }
-    #pf-next { right: 4px !important; width: 38px !important; height: 38px !important; }
-
-
-    /* ── Value Pillar Cards ── */
-    .pillar-card {
-      border-radius: 1rem;
-      border: 1px solid rgba(96,165,250,0.12);
-      background: rgba(15,26,46,0.45);
-      transition: border-color 0.3s ease, background 0.3s ease;
-    }
-    .pillar-header {
-      display: flex; align-items: center; gap: 0.75rem;
-      padding: 1rem 1.1rem;
-    }
-    .pillar-body { padding: 0 1.1rem 1rem; }
-    .pillar-chevron { transition: transform 0.35s ease; }
-    .pillar-card.open .pillar-chevron { transform: rotate(180deg); }
-    /* Desktop: always show body */
-    @media (min-width: 769px) {
-      .pillar-card { background: transparent; border: none; }
-      .pillar-body { padding: 0; max-height: none !important; overflow: visible !important; opacity: 1 !important; }
-      .pillar-header { padding: 0 0 1rem 0; }
-    }
-    /* Mobile: body hidden, expands on click */
-    @media (max-width: 768px) {
-      .pillar-card { cursor: pointer; }
-      .pillar-body {
-        max-height: 0; overflow: hidden; opacity: 0;
-        transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
-      }
-      .pillar-card.open .pillar-body { max-height: 120px; opacity: 1; }
-      .pillar-card.open { border-color: rgba(96,165,250,0.3); background: rgba(15,30,60,0.6); }
-    }
-
-    /* ── Why South Peak / Stats ── */
-    #why-us .text-center.mb-16 { margin-bottom: 1.5rem !important; }
-    #why-us h2 { font-size: 1.875rem !important; }
-    #why-us .flex.flex-wrap { gap: 0.75rem !important; }
-    #why-us .w-full.sm\:w-64 { padding: 1.25rem !important; }
-    #why-us .stat-number { font-size: 2.75rem !important; }
-    #why-us .grid.md\:grid-cols-3 { grid-template-columns: 1fr !important; gap: 1.25rem !important; }
-    /* Stats row: force 3 boxes side by side on mobile */
-    #why-us .flex.flex-wrap { flex-wrap: nowrap !important; gap: 0.4rem !important; }
-    #why-us .w-full.sm\:w-64 { width: auto !important; flex: 1 !important; padding: 0.75rem 0.4rem !important; min-width: 0 !important; }
-    #why-us .stat-number { font-size: 1.8rem !important; margin-bottom: 0.15rem !important; }
-    #why-us .w-full.sm\:w-64 p { font-size: 0.55rem !important; line-height: 1.3 !important; }
-    #why-us .mb-20 { margin-bottom: 1.5rem !important; }
-
-    /* ── Co-founders ── */
-    /* Co-founders: 2 columns side by side on mobile */
-    #founders .grid.md\:grid-cols-2 { grid-template-columns: 1fr 1fr !important; gap: 0.75rem !important; }
-
-    /* ── FAQ ── */
-    #faq h2 { font-size: 1.875rem !important; }
-    #faq .mb-12 { margin-bottom: 1.5rem !important; }
-    /* Compress question text to fit one line */
-    .faq-trigger { padding: 0.85rem 1rem !important; gap: 0.5rem !important; }
-    .faq-trigger span { font-size: 0.72rem !important; font-weight: 600 !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .faq-icon { width: 0.9rem !important; height: 0.9rem !important; flex-shrink: 0 !important; }
-
-    /* ── Contact ── */
-    #contact .grid.lg\:grid-cols-2 { grid-template-columns: 1fr !important; gap: 1.25rem !important; }
-    #contact h2 { font-size: 1.75rem !important; }
-    #contact .mb-6 { margin-bottom: 1rem !important; }
-    #contact .gap-8 { gap: 1rem !important; }
-    #contact .grid.sm\:grid-cols-2 { grid-template-columns: 1fr !important; }
-    /* Stack contact info icons horizontally on mobile */
-    #contact .space-y-3 { gap: 0.5rem !important; }
-
-    /* ── Footer ── */
-    footer .flex.flex-col.lg\:flex-row { flex-direction: column !important; gap: 1.25rem !important; }
-    footer .py-8 { padding-top: 1.25rem !important; padding-bottom: 1.25rem !important; }
-    footer img[alt="South Peak Builders Limited"] { height: 8rem !important; }
-    footer .flex.flex-wrap { justify-content: flex-start !important; gap: 1.5rem !important; }
-    footer .py-4.flex { flex-direction: column !important; text-align: center; gap: 0.5rem !important; }
-    footer .text-right { text-align: center !important; }
-    footer .text-slate-500.text-sm { font-size: 0.7rem !important; }
-
-    /* ── Typewriter box ── */
-    .max-w-2xl.mx-auto.px-6.py-5 { padding: 1rem !important; }
-
-    /* ── Section tags ── */
-    .section-tag { font-size: 0.65rem !important; }
-
-    /* ── Stats section hero buttons ── */
-    .flex.gap-4.justify-center { flex-direction: column !important; align-items: center !important; gap: 0.75rem !important; }
-    .btn-primary { width: 100% !important; justify-content: center !important; }
-
-    /* ── Modals ── */
-    .modal-panel { border-radius: 1.25rem !important; }
-  }
-
-  /* Extra small phones */
-  @media (max-width: 380px) {
-    #hero-headline { font-size: 1.75rem !important; }
-    #hero .section-tag-badge { font-size: 0.6rem !important; }
-
-    /* Canterbury NZ badge — smaller & centered on mobile */
-    .hero-badge-wrap {
-      gap: 0.5rem !important;
-      margin-bottom: 1.25rem !important;
-      justify-content: center !important;
-    }
-    .hero-badge-wrap img {
-      height: 28px !important;
-    }
-    .hero-badge-text {
-      font-size: 0.6rem !important;
-      padding: 0.25rem 0.7rem !important;
-      letter-spacing: 0.12em !important;
-    }
   }
 
 
