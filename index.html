@@ -1957,20 +1957,20 @@
       <div class="grid sm:grid-cols-2 gap-4">
         <div>
           <label class="block text-white/60 text-xs font-semibold uppercase tracking-wide mb-2">Full Name *</label>
-          <input type="text" required placeholder="Your name" class="form-input w-full px-3 py-2 rounded-lg text-white text-sm placeholder-white/25 focus:outline-none" />
+          <input type="text" name="name" required placeholder="Your name" class="form-input w-full px-3 py-2 rounded-lg text-white text-sm placeholder-white/25 focus:outline-none" />
         </div>
         <div>
           <label class="block text-white/60 text-xs font-semibold uppercase tracking-wide mb-2">Phone</label>
-          <input type="tel" placeholder="021 XXX XXXX" class="form-input w-full px-3 py-2 rounded-lg text-white text-sm placeholder-white/25 focus:outline-none" />
+          <input type="tel" name="phone" placeholder="021 XXX XXXX" class="form-input w-full px-3 py-2 rounded-lg text-white text-sm placeholder-white/25 focus:outline-none" />
         </div>
       </div>
       <div>
         <label class="block text-white/60 text-xs font-semibold uppercase tracking-wide mb-2">Email *</label>
-        <input type="email" required placeholder="your@email.com" class="form-input w-full px-3 py-2 rounded-lg text-white text-sm placeholder-white/25 focus:outline-none" />
+        <input type="email" name="email" required placeholder="your@email.com" class="form-input w-full px-3 py-2 rounded-lg text-white text-sm placeholder-white/25 focus:outline-none" />
       </div>
       <div>
         <label class="block text-white/60 text-xs font-semibold uppercase tracking-wide mb-2">Project Type</label>
-        <select class="form-input w-full px-3 py-2 rounded-lg text-white text-sm focus:outline-none" style="background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2360a5fa'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E\"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px;">
+        <select name="project_type" class="form-input w-full px-3 py-2 rounded-lg text-white text-sm focus:outline-none" style="background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2360a5fa'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E\"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px;">
           <option value="" class="bg-slate-800">Select a service…</option>
           <option value="architectural" class="bg-slate-800">Architectural Build</option>
           <option value="new-build" class="bg-slate-800">New Build</option>
@@ -1986,7 +1986,7 @@
       </div>
       <div>
         <label class="block text-white/60 text-xs font-semibold uppercase tracking-wide mb-2">Tell Us About Your Project</label>
-        <textarea rows="3" placeholder="Location, size, budget range, timeframe…" class="form-input w-full px-3 py-2 rounded-lg text-white text-sm placeholder-white/25 focus:outline-none resize-none"></textarea>
+        <textarea rows="3" name="message" placeholder="Location, size, budget range, timeframe…" class="form-input w-full px-3 py-2 rounded-lg text-white text-sm placeholder-white/25 focus:outline-none resize-none"></textarea>
       </div>
       <button type="submit" class="btn-primary w-full flex items-center justify-center gap-2 py-4 rounded-2xl text-base font-bold text-white">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
@@ -2191,32 +2191,62 @@
     if (e.key === 'Escape') { closeModal(); closeMenu(); }
   });
 
-  // ── Form submission (demo) ──
-  function submitForm(e) {
+  // ── Form submission — Web3Forms ──
+  async function submitForm(e) {
     e.preventDefault();
-    const btn = document.getElementById('submit-btn');
-    btn.innerHTML = '<svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg><span>Sending…</span>';
+    const form = document.getElementById('contact-form');
+    const btn  = document.getElementById('submit-btn');
+    const spinSVG = '<svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>';
+    const sendSVG = '<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>';
+    btn.innerHTML = spinSVG + '<span>Sending…</span>';
     btn.disabled = true;
-    setTimeout(() => {
-      document.getElementById('contact-form').reset();
-      document.getElementById('form-success').classList.remove('hidden');
-      btn.innerHTML = '<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg><span>Send Message</span>';
-      btn.disabled = false;
-    }, 1500);
+    try {
+      const fd = new FormData(form);
+      fd.append('access_key', 'be9aab1b-0ddd-4063-b5e1-f2ee41e5caf1');
+      fd.append('subject', 'New Message — South Peak Builders Website');
+      fd.append('from_name', 'South Peak Builders Website');
+      const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (data.success) {
+        form.reset();
+        document.getElementById('form-success').classList.remove('hidden');
+      } else {
+        alert('Something went wrong. Please try again or call us directly.');
+      }
+    } catch(err) {
+      alert('Network error. Please try again or call us directly.');
+    }
+    btn.innerHTML = sendSVG + '<span>Send Message</span>';
+    btn.disabled = false;
   }
 
-  function submitModalForm(e) {
+  async function submitModalForm(e) {
     e.preventDefault();
-    const btn = e.target.querySelector('button[type="submit"]');
-    btn.innerHTML = '<svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg><span>Sending…</span>';
+    const form = document.getElementById('modal-form');
+    const btn  = e.target.querySelector('button[type="submit"]');
+    const spinSVG = '<svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>';
+    const sendSVG = '<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>';
+    btn.innerHTML = spinSVG + '<span>Sending…</span>';
     btn.disabled = true;
-    setTimeout(() => {
-      document.getElementById('modal-form').reset();
-      document.getElementById('modal-success').classList.remove('hidden');
-      btn.innerHTML = '<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg><span>Request Free Quote</span>';
-      btn.disabled = false;
-      setTimeout(closeModal, 3000);
-    }, 1500);
+    try {
+      const fd = new FormData(form);
+      fd.append('access_key', 'be9aab1b-0ddd-4063-b5e1-f2ee41e5caf1');
+      fd.append('subject', 'New Quote Request — South Peak Builders Website');
+      fd.append('from_name', 'South Peak Builders Website');
+      const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (data.success) {
+        form.reset();
+        document.getElementById('modal-success').classList.remove('hidden');
+        setTimeout(closeModal, 3000);
+      } else {
+        alert('Something went wrong. Please try again or call us directly.');
+      }
+    } catch(err) {
+      alert('Network error. Please try again or call us directly.');
+    }
+    btn.innerHTML = sendSVG + '<span>Request Free Quote</span>';
+    btn.disabled = false;
   }
 
 
