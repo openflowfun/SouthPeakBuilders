@@ -452,12 +452,12 @@
     /* Bullets: auto margin pushes everything below to the bottom */
     #hero .text-white\/60 { white-space: normal !important; margin-bottom: auto !important; }
     /* Buttons stack, no extra margin */
-    #hero .flex.gap-4 { flex-direction: column; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem !important; }
+    #hero .flex.gap-4 { flex-direction: column; align-items: center; gap: 0.5rem; margin-top: auto !important; margin-bottom: 1.25rem !important; }
     #hero .max-w-2xl { margin-left: 0; margin-right: 0; }
     /* Badge smaller, tight against nav */
     #hero .flex.items-center.justify-center.gap-3 { margin-bottom: 0.3rem !important; }
-    /* Promise box compact */
-    #hero .max-w-2xl.mx-auto { padding: 0.6rem 1rem !important; margin-top: 0 !important; }
+    /* Promise box — hidden on mobile */
+    #promise-box { display: none !important; }
 
     /* ── Footer headings on mobile ── */
     footer h4 { letter-spacing: 0.05em !important; font-size: 0.7rem !important; }
@@ -1025,7 +1025,7 @@
     </div>
 
     <!-- Typewriter -->
-    <div class="max-w-2xl mx-auto px-6 py-5 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md reveal reveal-delay-4">
+    <div id="promise-box" class="max-w-2xl mx-auto px-6 py-5 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md reveal reveal-delay-4">
       <p class="text-white/50 text-xs font-semibold tracking-widest uppercase mb-2">Our Promise</p>
       <p id="typewriter" class="text-white/90 text-base sm:text-lg font-medium italic leading-relaxed min-h-[3rem]"></p>
     </div>
