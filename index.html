@@ -445,14 +445,14 @@
       display: flex;
       flex-direction: column;
     }
-    #hero-headline { font-size: 1.42rem !important; line-height: 1.18 !important; margin-bottom: 0.35rem !important; }
+    #hero-headline { font-size: 1.42rem !important; line-height: 1.18 !important; margin-bottom: 0.35rem !important; margin-top: auto !important; }
     /* Fix typewriter height so the box never shifts layout when text changes */
     #typewriter { min-height: 3.5rem; height: 3.5rem; overflow: hidden; }
     #hero .whitespace-nowrap { white-space: normal !important; font-size: 0.75rem; }
     /* Bullets: auto margin pushes everything below to the bottom */
     #hero .text-white\/60 { white-space: normal !important; margin-bottom: auto !important; }
     /* Buttons stack, no extra margin */
-    #hero .flex.gap-4 { flex-direction: column; align-items: center; gap: 0.5rem; margin-top: auto !important; margin-bottom: 1.25rem !important; }
+    #hero .flex.gap-4 { flex-direction: column; align-items: center; gap: 0.5rem; margin-bottom: 1.25rem !important; }
     #hero .max-w-2xl { margin-left: 0; margin-right: 0; }
     /* Badge smaller, tight against nav */
     #hero .flex.items-center.justify-center.gap-3 { margin-bottom: 0.3rem !important; }
@@ -558,6 +558,8 @@
 
     /* ── Value Pillar Cards – mobile accordion overrides ── */
     .pillar-card { cursor: pointer; }
+    .pillar-header h3 { text-align: center !important; }
+    .pillar-header { display: flex !important; flex-direction: column !important; align-items: center !important; gap: 0.4rem !important; padding: 0.75rem; }
     .pillar-body {
       max-height: 0; overflow: hidden; opacity: 0;
       transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
@@ -1009,7 +1011,7 @@
     <!-- Subheadline -->
     <p class="text-white/60 text-xs sm:text-sm md:text-base lg:text-lg font-medium mb-10 reveal reveal-delay-2 mx-auto text-center px-2">
       <span class="hidden sm:inline">• 30+ Years Experience &nbsp;•&nbsp; Licensed Building Practitioners &nbsp;•&nbsp; Residential Specialists</span>
-      <span class="sm:hidden">• 30+ Years Experience<br/>• Licensed Building Practitioners<br/>• Residential Specialists</span>
+      <span class="sm:hidden">• BCITO Qualified<br/>• Canterbury Local<br/>• Licensed Building Practitioners<br/>• 30+ Years Experience</span>
     </p>
 
     <!-- CTA buttons -->
